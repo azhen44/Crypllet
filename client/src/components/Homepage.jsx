@@ -23,6 +23,7 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
 
 const Homepage = () => {
   const connectWallet = () => {
+    console.log("clicked wallet")
 
   }
   const handleSubmit = () => {
