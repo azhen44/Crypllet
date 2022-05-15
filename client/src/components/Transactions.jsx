@@ -14,6 +14,7 @@ const TransactionCard = ({addressTo, addressFrom, timestamp, message, keyword, a
             <p className='text-white text-base'>To: {shortenAdd(addressTo)}</p>
           </a>
           <p className='text-white text-base'>Amount: {amount} ETH</p>
+          <p className='text-white text-base'>Message: {message}</p>
           
             <p className="text-[#37c7da] font-bold">{timestamp}</p>
         
@@ -36,7 +37,7 @@ const Transactions = () => {
         )}
 
         <div className="flex flex-wrap justify-center items-center mt-10">
-          {transactions.reverse().map((transaction, i) => (
+          {transactions.map((transaction, i) => (
             <TransactionCard key={i} {...transaction} />
           ))}
         </div>
