@@ -3,6 +3,7 @@ import { AiFillPlayCircle } from "react-icons/ai";
 import { SiEthereum } from "react-icons/si";
 import { BsInfoCircle } from "react-icons/bs";
 import { TransactionContext } from "../context/TransactionContext";
+import { shortenAdd } from '../utils/shortenAdd';
 
 
 import { LoadSpinner } from './';
@@ -24,7 +25,7 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
 
 
 const Homepage = () => {
-  const { connectWallet, currentAccount, formData, sendTransaction, handleChange } = useContext(TransactionContext);
+  const { connectWallet, currentAccount, formData, sendTransaction, handleChange, isLoading } = useContext(TransactionContext);
 
   const handleSubmit = (e) => {
     const {addressTo, amount, keyword, message} = formData;
@@ -84,7 +85,7 @@ const Homepage = () => {
               </div>
               <div>
                 <p className="text-white font-light text-sm">
-                  0xasdasd...afsfdsad
+                  {shortenAdd(currentAccount)}
                 </p>
                 <p className="text-white font-semibold text-lg mt-1">
                   Ethereum
@@ -98,7 +99,7 @@ const Homepage = () => {
             <Input placeholder="Keyword (Gif)" name="keyword" type="text" handleChange={handleChange} />
             <Input placeholder="Enter Message" name="message" type="text" handleChange={handleChange} />
             <div className="h-[1px] w-full bg-gray-400 my-2" />
-            {false
+            {isLoading
               ? <LoadSpinner />
               : (
                 <button
