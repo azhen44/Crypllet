@@ -14,6 +14,7 @@ const TransactionCard = ({addressTo, addressFrom, timestamp, message, keyword, a
             <p className='text-white text-base'>To: {shortenAdd(addressTo)}</p>
           </a>
           <p className='text-white text-base'>Amount: {amount} ETH</p>
+          <p className='text-white text-base'>Message: {message}</p>
           
             <p className="text-[#37c7da] font-bold">{timestamp}</p>
         
@@ -25,12 +26,12 @@ const TransactionCard = ({addressTo, addressFrom, timestamp, message, keyword, a
 }
 
 const Transactions = () => {
-  const { currentAccount, transactions} = useContext(TransactionContext)
+  const { currentAccount, transactions, transactionCount} = useContext(TransactionContext)
   return (
     <div className="flex w-full justify-center items-center 2xl:px-20 gradient-bg-transactions">
       <div className="flex flex-col md:p-12 py-12 px-4">
         {currentAccount ? (
-          <h3 className="text-white text-3xl text-center my-2">Latest Transactions</h3>
+          <h3 className="text-white text-3xl text-center my-2">Latest Transactions ({transactionCount})</h3>
         ): (
           <h3 className="text-white text-3xl text-center my-2">Please connect your connect to see Transactions</h3>
         )}

@@ -1,13 +1,17 @@
 import {HiMenuAlt4} from 'react-icons/hi'
 import {AiOutlineClose} from 'react-icons/ai'
-import React, { useState} from 'react'
+import React, { useState, useContext, useEffect} from 'react'
+import { shortenAdd } from '../utils/shortenAdd'
 import logo from '../../images/logo.png'
+import { TransactionContext } from '../context/TransactionContext'
 
 const NavBarItem = ({ title, handleNav }) => (
   <li className={`mx-4 cursor-pointer my-2 text-lg`} onClick={(()=>handleNav(title))}>{title}</li>
 );
 const Navbar = () => {
+  const { currentAccount, connectWallet} = useContext(TransactionContext)
   const [toggleMenu, setToggleMenu] = useState(false);
+
   const handleNav = (item) => {
     console.log(`clicked ${item}`)
   }
@@ -19,10 +23,14 @@ const Navbar = () => {
       </div>
       <ul className="text-white md:flex hidden list-none flex-row justify-between items-center flex-initial">
         {["Market", "Exchange", "Tutorials", "Wallets"].map((item, index) => (
-          <NavBarItem key={item + index} title={item} />
+          <NavBarItem key={item + index} title={item}  handleNav={handleNav}/>
         ))}
         <li className="bg-[#2952e3] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#2546bd]">
-          Login
+          {currentAccount ? (
+            <p className="text-white text-center my-2">{`Logged in as: ${shortenAdd(currentAccount)}`}</p>
+          ): (
+            <h3 className="text-white text-center my-2" onClick={connectWallet}>Login with MetaMask</h3>
+          )}
         </li>
       </ul>
       <div className="flex relative">
@@ -39,7 +47,7 @@ const Navbar = () => {
           >
             <li className="text-xl w-full my-2"><AiOutlineClose onClick={() => setToggleMenu(false)} /></li>
             {["Market", "Exchange", "Tutorials", "Wallets"].map(
-              (item, index) => <NavBarItem key={item + index} title={item} handleNav={handleNav}/>,
+              (item, index) => <NavBarItem key={item + index} title={item} handleNav={handleNav}/>
             )}
           </ul>
         )}
