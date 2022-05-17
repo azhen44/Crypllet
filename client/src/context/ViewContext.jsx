@@ -1,18 +1,15 @@
-import React, {useContext, useEffect, useState} from 'react';
-export const ViewContext = React.createContext();
-import axios from 'axios';
-
+import React, {useState} from 'react';
+export const ViewContext = React.createContext({view:"Send Crypto"});
 
 export const ViewProvider = ({children}) => {
-  const [view, setView] = useState("Homepage")
-  
-
-
+  const [view, setView] = useState("Send Crypto")
+  const changeView = (view) => {
+    setView(view)
+  }
   return (
-    <ViewContext.Provider value={{view}}>
+    <ViewContext.Provider value={{view, changeView}}>
       {children}
     </ViewContext.Provider>
   )
-
-
 }
+

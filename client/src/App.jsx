@@ -8,16 +8,32 @@ const App = () => {
   const { view } = useContext(ViewContext)
 
   return (
-    <div className="min-h-screen">
-      <div className='gradient-bg-welcome'>
-        <Navbar />
-        <Homepage />
-      </div>
-      {isMyFave ? <MyFave/> : <Market /> }
-        <Services />
-        <Transactions />
-        <Footer />     
+    <div>
+      {view === "Send Crypto" && 
+        <div className="min-h-screen">       
+          <div className='gradient-bg-welcome'>
+            <Navbar />
+            <Homepage />
+          </div>    
+          <Services />
+          <Transactions />
+          <Footer />
+        </div>
+      }
+      {view === "Market" && 
+        <div className="h-full bg-black" >       
+          <div className='gradient-bg-welcome'>
+            <Navbar />
+            {isMyFave ? <MyFave /> : <Market />}
+          </div>    
+          <Footer />
+        </div>
+      }  
     </div>
+    
+
+
+
   )
 }
 
