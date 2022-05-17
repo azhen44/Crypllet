@@ -1,7 +1,8 @@
 import React ,{useContext, useState} from "react";
 import axios from 'axios'
 import { MarketContext } from "../context/MarketContext";
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 const Tickercard = ({symbol, price, changePercent}) => {
   return (
@@ -10,6 +11,7 @@ const Tickercard = ({symbol, price, changePercent}) => {
         <td>{symbol.slice(0,-4)} </td>
         <td>{`$${price.slice(0,-6)}`}</td>
         <td>{changePercent.slice(0,-1)}% </td>
+        <td><FontAwesomeIcon className="hover:fill-red-500" icon={faHeart}></FontAwesomeIcon></td>
       </tr>
     
   )
@@ -46,9 +48,8 @@ const MyFave = () => {
               <th className="text-white py-2 px-3">Price</th>
               <th className="text-white py-2 px-3">24hr Change</th>
             </tr>
-          </tbody>
-          {res}
-          <FontAwesomeIcon icon={faHeart} color="white"></FontAwesomeIcon>
+            {res}
+          </tbody>         
         </table>
      
     </div>

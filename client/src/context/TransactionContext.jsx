@@ -37,7 +37,7 @@ export const TransactionProvider = ({children}) => {
       if (!ethereum) return alert ("Please install metamask")
       const transactionContract = getEthereumContract();
       const availableTransactions = await transactionContract.getAllTransactions();
-      const structuredTransactions = availableTransactions.map((transaction) => ({
+      const structuredTransactions = availableTransactions.slice(-9).map((transaction) => ({
         addressTo: transaction.receiver,
         addressFrom: transaction.sender,
         timestamp: new Date(transaction.timestamp.toNumber() * 1000).toLocaleString(),
