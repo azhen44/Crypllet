@@ -8,8 +8,8 @@ const App = () => {
     <div className="min-h-screen">
       <div className='gradient-bg-welcome'>
         <Navbar />
+        <Homepage />      
         <Market />
-        <Homepage />
       </div>
         <Services />
         <Transactions />
