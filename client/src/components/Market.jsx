@@ -16,7 +16,7 @@ const Tickercard = ({symbol, price, changePercent}) => {
 
 const Market = () => {
 
-  const { coinInfo, isMyFave, changeMarketView} = useContext(MarketContext)
+  const { coinInfo, changeMarketView} = useContext(MarketContext)
   const res = coinInfo.map( (x) => {
     return (
       <Tickercard key={x.symbol} symbol={x.symbol} price={x.lastPrice} changePercent={x.priceChangePercent} />
@@ -24,7 +24,7 @@ const Market = () => {
   }) 
   
   return (
-    <div className="flex h-full w-full justify-center items-center gradient-bg-services">
+    <div className="flex w-full justify-center items-center gradient-bg-services">
     <div className="flex mf:flex-row flex-col items-center justify-between md:p-20 py-12 px-4">
       <div className="flex-1 flex flex-col justify-start items-start">
         <h1 className={`text-white text-3xl sm:text-5xl py-2 bg-neutral-600`}>
@@ -44,8 +44,9 @@ const Market = () => {
               <th className="text-white py-2 text-gradient ">Price</th>
               <th className="text-white py-2 text-gradient ">24hr Change</th>
             </tr>
-          </tbody>
-        {res}
+          
+          {res}
+        </tbody>
         </table>
      
     </div>
