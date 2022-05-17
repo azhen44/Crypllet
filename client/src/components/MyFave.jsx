@@ -45,8 +45,8 @@ const MyFave = () => {
               <th className="text-white py-2 px-3 text-gradient ">Price</th>
               <th className="text-white py-2 px-3 text-gradient ">24hr Change</th>
             </tr>
-          </tbody>
-          {res}
+            {res}
+          </tbody>         
         </table>
      
     </div>
