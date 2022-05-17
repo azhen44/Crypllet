@@ -1,13 +1,16 @@
 import React ,{useContext} from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 import { MarketContext } from "../context/MarketContext";
 const Tickercard = ({symbol, price, changePercent}) => {
   return (
     
       <tr className="text-white text-base text-center mx-2 cursor-pointer">
-        <td>{symbol.slice(0,-4)} </td>
-        <td>{`$${price.slice(0,-6)}`}</td>
-        <td>{changePercent.slice(0,-1)}% </td>
+        <td> {symbol.slice(0,-4)}</td>
+        <td>{`$${price.slice(0,-6)}`} </td>
+        <td>{changePercent.slice(0,-1)}%</td>
+        <td><FontAwesomeIcon className="hover:fill-red-500" icon={faHeart}></FontAwesomeIcon></td>
       </tr>
     
   )
@@ -18,7 +21,9 @@ const Market = () => {
 
   const res = coinInfo.map( (x) => {
     return (
-      <Tickercard key={x.symbol} symbol={x.symbol} price={x.lastPrice} changePercent={x.priceChangePercent} />
+      <Tickercard key={x.symbol} symbol={x.symbol} price={x.lastPrice} changePercent={x.priceChangePercent}
+      />
+      
     )
   }) 
   

@@ -1,6 +1,8 @@
 import React ,{useContext, useState} from "react";
 import axios from 'axios'
 import { MarketContext } from "../context/MarketContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 const Tickercard = ({symbol, price, changePercent}) => {
   return (
@@ -9,6 +11,7 @@ const Tickercard = ({symbol, price, changePercent}) => {
         <td>{symbol.slice(0,-4)} </td>
         <td>{`$${price.slice(0,-6)}`}</td>
         <td>{changePercent.slice(0,-1)}% </td>
+        <td><FontAwesomeIcon className="hover:fill-red-500" icon={faHeart}></FontAwesomeIcon></td>
       </tr>
     
   )
@@ -25,8 +28,8 @@ const MyFave = () => {
   }) 
   
   return (
-    <div className="flex w-full justify-center items-center gradient-bg-services">
-    <div className="flex mf:flex-row flex-col items-center justify-between md:p-20 py-12 px-4">
+    <div className="flex py-40 w-full justify-center items-center gradient-bg-services">
+    <div className="space-x-20 flex mf:flex-row flex-col items-center justify-between md:p-20">
       <div className="flex-1 flex flex-col justify-start items-start">
         <h2 
           className='text-white text-3xl sm:text-5xl py-2'
@@ -38,12 +41,12 @@ const MyFave = () => {
           My Favourites
         </h2>
       </div>
-        <table>
+        <table className="table-auto">
           <tbody>
             <tr>
-              <th className="text-white py-2 px-3 text-gradient ">Symbol</th>
-              <th className="text-white py-2 px-3 text-gradient ">Price</th>
-              <th className="text-white py-2 px-3 text-gradient ">24hr Change</th>
+              <th className="text-white py-2 px-3">Symbol</th>
+              <th className="text-white py-2 px-3">Price</th>
+              <th className="text-white py-2 px-3">24hr Change</th>
             </tr>
             {res}
           </tbody>         
