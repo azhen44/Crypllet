@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import axios from 'axios'
 import { ethers } from 'ethers'
 import {contractABI, contractAddress } from '../utils/constants'
 export const TransactionContext = React.createContext();
@@ -24,6 +25,7 @@ export const TransactionProvider = ({children}) => {
   const [isLoading, setIsLoading] = useState(false)
   const [transactionCount, setTransactionCount] = useState(localStorage.getItem('transactionCount'));
   const [transactions, setTransactions] = useState([])
+
 
 
   const handleChange = (e, name) => {
@@ -122,7 +124,7 @@ export const TransactionProvider = ({children}) => {
 
       const transactionCount = await transactionContract.getTransactionCount();
       setTransactionCount(transactionCount.toNumber());
-      window.reload();
+      window.location.reload();
 
       
     } catch (error) {
@@ -132,13 +134,8 @@ export const TransactionProvider = ({children}) => {
   }
 
 
-  useEffect(() => {
-    checkIfWalletIsConnnected();
-    checkIfTransactionExist();
-  },[])
-
   return (
-    <TransactionContext.Provider value={{ connectWallet, currentAccount, formData, setFromData, handleChange, sendTransaction, transactions, isLoading, transactionCount }}>
+    <TransactionContext.Provider value={{ connectWallet, currentAccount, formData, setFromData, handleChange, sendTransaction, transactions, isLoading, transactionCount, checkIfTransactionExist, checkIfWalletIsConnnected}}>
       {children}
     </TransactionContext.Provider>
   )
