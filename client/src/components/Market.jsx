@@ -18,14 +18,16 @@ const Tickercard = ({symbol, price, changePercent}) => {
       else {temp.className = "positive";}
     }
   }
-MakePosNeg();
+  MakePosNeg();
+
+  const colorChange = "positive"
 
   return (
     
       <tr className="text-white text-base text-center mx-2 cursor-pointer">
         <td>{symbol.slice(0,-4)}</td>
         <td>{`$${price.slice(0,-6)}`} </td>
-        <td className="percentChange">{changePercent.slice(0,-1)}%</td>
+        <td className="percentChange positive negative">{changePercent.slice(0,-1)}%</td>
         <td className="heartContainer"><FontAwesomeIcon icon={faHeart} className="heartIcon transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 hover: duration-300 ... "></FontAwesomeIcon></td>
       </tr>
     
