@@ -3,15 +3,23 @@ import axios from 'axios'
 import { MarketContext } from "../context/MarketContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import useSearch from "../customHooks/useSearch";
 
-const Tickercard = ({symbol, name, price, img, priceChange24hr, faveItem}) => {
+const Tickercard = ({id, symbol, name, price, img, priceChange24hr, faveItem}) => {
+  let navigate = useNavigate();
+  const handleTableClicks = () => {
+    navigate(`/Market/${name}`)
+  }
   return (
     
       <tr className="text-white text-base text-center mx-2 cursor-pointer">
-        <Link to={`/Market/${name}`}>
-          <td className="py-5"><img className="object-scale-down h-20 w-40" src={img}/></td> <br/> {name + ' '+ symbol.toUpperCase()}                
-        </Link>
+
+          <td onClick={handleTableClicks} className="flex flex-col py-5 justify-center items-center">
+            <img className="object-scale-down h-20 w-40" src={img}/>
+            {`${name} ${symbol.toUpperCase()}`}
+          </td>                   
+
           <td> ${price}</td>
           <td className={priceChange24hr > 0? "text-green-600" : "text-red-600"}> {`${priceChange24hr.toFixed(2)}%`}</td>   
           <td><FontAwesomeIcon className="hover:fill-red-500" icon={faHeart}></FontAwesomeIcon></td>
@@ -42,12 +50,13 @@ const MyFave = () => {
       });
   }
 
-  const { coinInfo, isMyFave, changeMarketView} = useContext(MarketContext)
+  const { coinInfo, getTickerData, isMyFave, changeMarketView} = useContext(MarketContext)
+  getTickerData();
   const temp = coinInfo.slice(2,5)
-  console.log(isMyFave)
+  
   const res = temp.map( (x) => {
     return (
-      <Tickercard key={x.id} symbol={x.symbol} name={x.name} price={x.current_price} priceChange24hr={x.price_change_percentage_24h} img={x.image} faveItem={faveItem} />
+      <Tickercard key={x.id} id={x.id} symbol={x.symbol} name={x.name} price={x.current_price} priceChange24hr={x.price_change_percentage_24h} img={x.image} faveItem={faveItem} />
     )
   }) 
   
