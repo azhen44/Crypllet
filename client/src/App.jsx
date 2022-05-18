@@ -3,6 +3,7 @@ import { Navbar, Homepage, Footer, LoadSpinner, Transactions, Services, Market, 
 import { MarketContext } from './context/MarketContext'
 import { ViewContext } from './context/ViewContext'
 
+
 const App = () => {
   const { isMyFave } = useContext(MarketContext)
   const { view } = useContext(ViewContext)
@@ -10,7 +11,7 @@ const App = () => {
   return (
     <div>
       {view === "Send Crypto" && 
-        <div className="min-h-screen">       
+        <div className="h-screen">       
           <div className='gradient-bg-welcome'>
             <Navbar />
             <Homepage />
