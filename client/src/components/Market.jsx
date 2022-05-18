@@ -14,7 +14,7 @@ const Tickercard = ({symbol, name, price, img, priceChange24hr, faveItem}) => {
         </Link>
           <td> ${price}</td>
           <td className={priceChange24hr > 0? "text-green-600" : "text-red-600"}> {`${priceChange24hr.toFixed(2)}%`}</td>   
-          <td><FontAwesomeIcon className="hover:fill-red-500" icon={faHeart}></FontAwesomeIcon></td>
+          <td><FontAwesomeIcon className="hover:fill-red-500" onClick={() => faveItem(name)}icon={faHeart}></FontAwesomeIcon></td>
       </tr>
     
     
