@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { MarketContext } from "../context/MarketContext";
 import axios from "axios";
 import { TransactionContext } from "../context/TransactionContext";
-import useSearch from "../customHooks/useSearch";
+import useGetCoin from "../customHooks/useGetCoin.jsx";
 
 const Tickercard = ({lastCoinRef, index, id,symbol, name, price, img, priceChange24hr, faveItem}) => {
 
@@ -28,7 +28,7 @@ const Tickercard = ({lastCoinRef, index, id,symbol, name, price, img, priceChang
 
 const Market = () => {
   const [pageNumber, setPageNumber] = useState(1)
-  const {coins, hasMore, loading, error} = useSearch(pageNumber)
+  const {coins, hasMore, loading, error} = useGetCoin(pageNumber)
   const { changeMarketView } = useContext(MarketContext)
   const { currentAccount } = useContext(TransactionContext)
   const observer = useRef()
@@ -101,10 +101,10 @@ const Market = () => {
                 /> 
               )
             }
-          })}
-          <div className="text-white text-3xl">{loading && 'Loading...'}</div>
+          })}        
         </tbody>
         </table>
+        <div className="text-white text-3xl">{loading && 'Loading...'}</div>
     </div>
   </div>
   )

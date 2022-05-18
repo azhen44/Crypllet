@@ -4,7 +4,7 @@ import { MarketContext } from "../context/MarketContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from 'react-router-dom'
-import useSearch from "../customHooks/useSearch";
+import useGetCoin from "../customHooks/useGetCoin.jsx";
 
 const Tickercard = ({id, symbol, name, price, img, priceChange24hr, faveItem}) => {
   let navigate = useNavigate();
