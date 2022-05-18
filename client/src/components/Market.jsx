@@ -26,7 +26,7 @@ const Market = () => {
   const faveItem = (symbolName) => {
     const params = new URLSearchParams()
     params.append('coin', symbolName)
-    params.append('walletAddress', currentAccount)
+    params.append('wallet_address', currentAccount)
     console.log(symbolName)
 
    
