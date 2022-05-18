@@ -1,7 +1,7 @@
 import React ,{useContext} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-
+import { Link } from 'react-router-dom';
 import { MarketContext } from "../context/MarketContext";
 import axios from "axios";
 import { TransactionContext } from "../context/TransactionContext";
@@ -9,7 +9,9 @@ const Tickercard = ({symbol, price, changePercent, faveItem}) => {
   return (
     
       <tr className="text-white text-base text-center mx-2 cursor-pointer">
-        <td> {symbol.slice(0,-4)}</td>
+        <Link to={`/Market/${symbol.slice(0,-4)}`}>
+          <td> {symbol.slice(0,-4)}</td>
+        </Link>
         <td>{`$${price.slice(0,-6)}`} </td>
         <td>{changePercent.slice(0,-1)}%</td>
         <td onClick={()=> faveItem(symbol)}><FontAwesomeIcon className="hover:fill-red-500" icon={faHeart}/></td>
@@ -27,9 +29,7 @@ const Market = () => {
     const params = new URLSearchParams()
     params.append('coin', symbolName)
     params.append('wallet_address', currentAccount)
-    console.log(symbolName)
-
-   
+    console.log(symbolName)   
       axios.post("http://localhost:3001/user_coins", params
         ,{
         headers: {
@@ -42,11 +42,6 @@ const Market = () => {
       .catch(function (error) {
         console.log(error);
       });
-      
-     
-  
-
- 
   }
 
     
@@ -71,7 +66,7 @@ const Market = () => {
           className={`text-white text-3xl sm:text-5xl py-2`}
           onClick={changeMarketView}
         >
-          My Favourite
+          <Link to={'/favourites'} >My Favourite</Link>
         </h1>
       </div>
         <table>

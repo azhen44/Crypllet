@@ -3,6 +3,7 @@ import axios from 'axios'
 import { MarketContext } from "../context/MarketContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { Link } from 'react-router-dom'
 
 const Tickercard = ({symbol, price, changePercent}) => {
   return (
@@ -35,7 +36,7 @@ const MyFave = () => {
           className='text-white text-3xl sm:text-5xl py-2'
           onClick={changeMarketView}
           >
-          Market
+          <Link to={'/Market'} >Market</Link>
         </h2>
         <h2 className='text-white text-3xl sm:text-5xl py-2 bg-neutral-600'>
           My Favourites
