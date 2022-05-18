@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 module.exports = (db) => {
-  router.post("/users", (req, res) => {
-    db.query(`SELECT * FROM users;`)
+  router.post("/user_coins", (req, res) => {
+    db.query(`SELECT * FROM user_coins;`)
       .then(data => {
         console.log(data.rows)
         res.json(data.rows);
