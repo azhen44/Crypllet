@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 3001;
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+const cors = require("cors")
 
 // PG database client/connection setup
 const { Pool } = require("pg");
@@ -16,6 +17,7 @@ db.connect();
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(cors())
 
 
 // Separated Routes for each Resource

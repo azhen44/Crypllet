@@ -15,5 +15,23 @@ module.exports = (db) => {
       });
   });
 
+  router.post("/user_coins", (req, res) => {
+    const test  = req.body;
+    console.log('does it work', req.body)
+
+
+    db.query(`INSERT INTO user_coins (user_id, coin_id) VALUES (1, '${req.body.coin}')`)
+    .then(() => {
+      res.status(200)
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+
+
+  })
+
   return router;
 };

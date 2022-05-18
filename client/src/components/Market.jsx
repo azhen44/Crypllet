@@ -3,27 +3,60 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 import { MarketContext } from "../context/MarketContext";
-const Tickercard = ({symbol, price, changePercent}) => {
+import axios from "axios";
+import { TransactionContext } from "../context/TransactionContext";
+const Tickercard = ({symbol, price, changePercent, faveItem}) => {
   return (
     
       <tr className="text-white text-base text-center mx-2 cursor-pointer">
         <td> {symbol.slice(0,-4)}</td>
         <td>{`$${price.slice(0,-6)}`} </td>
         <td>{changePercent.slice(0,-1)}%</td>
-        <td><FontAwesomeIcon className="hover:fill-red-500" icon={faHeart}></FontAwesomeIcon></td>
+        <td onClick={()=> faveItem(symbol)}><FontAwesomeIcon className="hover:fill-red-500" icon={faHeart}/></td>
       </tr>
+    
     
   )
 }
 
 const Market = () => {
   const { coinInfo, changeMarketView} = useContext(MarketContext)
+  const { currentAccount } = useContext(TransactionContext)
+
+  const faveItem = (symbolName) => {
+    const params = new URLSearchParams()
+    params.append('coin', symbolName)
+    params.append('walletAddress', currentAccount)
+    console.log(symbolName)
+
+   
+      axios.post("http://localhost:3001/user_coins", params
+        ,{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+      
+     
+  
+
+ 
+  }
+
+    
 
   const res = coinInfo.map( (x) => {
     return (
-      <Tickercard key={x.symbol} symbol={x.symbol} price={x.lastPrice} changePercent={x.priceChangePercent}
-      />
-      
+
+      <Tickercard key={x.symbol} symbol={x.symbol} price={x.lastPrice} changePercent={x.priceChangePercent} faveItem={faveItem}
+      /> 
+   
     )
   }) 
   

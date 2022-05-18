@@ -5,6 +5,7 @@ import {contractABI, contractAddress } from '../utils/constants'
 export const TransactionContext = React.createContext();
 const {ethereum}  = window;
 
+
 //gets smartcontract. with the abi and address created. 
 const getEthereumContract = () => {
   // MetaMask injects a Web3 Provider as "web3.currentProvider", so
@@ -53,7 +54,23 @@ export const TransactionProvider = ({children}) => {
     }
     
   }
-
+  const addUserToDB = (currentAccount) => {
+    const params = new URLSearchParams()
+    params.append('wallet_address', currentAccount)
+    console.log('currentAcc', currentAccount) 
+      axios.post("http://localhost:3001/users", params
+        ,{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
   const checkIfWalletIsConnnected = async () => {
     try {
       if (!ethereum) return alert ("Please install metamask");
@@ -63,6 +80,7 @@ export const TransactionProvider = ({children}) => {
         setCurrentAccount(accounts[0])
         getAllTransactions()
         console.log("Connected Wallet: ", accounts[0])
+        addUserToDB(accounts[0])
       } else {
         console.log("No accounts found")
       }      
@@ -84,12 +102,17 @@ export const TransactionProvider = ({children}) => {
     }
   }
 
+ 
+
+
   const connectWallet = async () => {
     try {
       if (!ethereum) return alert ("Please install metamask");
       const accounts = await ethereum.request({method: 'eth_requestAccounts'})
 
       window.location.reload();
+
+      
     } catch (error) {
       console.log(error)
       throw new Error("no eth object")
