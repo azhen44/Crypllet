@@ -1,9 +1,10 @@
 import React ,{useContext, useState} from "react";
-import axios from 'axios'
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { MarketContext } from "../context/MarketContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { Link } from 'react-router-dom'
+import "../components/MyFave.css";
 
 const Tickercard = ({symbol, name, price, img, priceChange24hr, faveItem}) => {
   return (
@@ -42,6 +43,17 @@ const MyFave = () => {
       });
   }
 
+  const MakePosNeg = () => {
+    let TDs = document.getElementsByClassName('changePercent');
+
+    for (let i = 0; i < TDs.length; i++) {
+      const temp = TDs[i];
+      if (temp.firstChild.nodeValue.indexOf('-') == 0) {temp.className = "negative";} 
+      else {temp.className = "positive";}
+    }
+  }
+  onload = MakePosNeg();
+
   const { coinInfo, isMyFave, changeMarketView} = useContext(MarketContext)
   const temp = coinInfo.slice(2,5)
   console.log(isMyFave)
@@ -52,20 +64,21 @@ const MyFave = () => {
   }) 
   
   return (
-    <div className="flex py-40 w-full justify-center items-center gradient-bg-services">
-    <div className="space-x-20 flex flex-col items-center justify-between md:p-20">
-      <div className="flex-1 flex flex-col justify-start items-start">
+    <div className="favouriteContainer flex w-full justify-center items-center gradient-bg-services">
+    <div className="">
+      <div className="pb-60 flex space-x-24">
         <h2 
-          className='text-white text-3xl sm:text-5xl py-2'
+          className='market text-white text-3xl sm:text-5xl py-2'
           onClick={changeMarketView}
           >
           <Link to={'/Market'} >Market</Link>
         </h2>
-        <h2 className='text-white text-3xl sm:text-5xl py-2 bg-neutral-600'>
+        <h2 className='favourites text-white text-3xl sm:text-5xl py-2'>
           My Favourites
         </h2>
       </div>
-        <table className="table-auto">
+      <div className="listContainer">
+        <table className="border-8">
           <tbody>
             <tr>
               <th className="text-white py-2 px-3">Symbol</th>
@@ -76,7 +89,7 @@ const MyFave = () => {
             {res}
           </tbody>         
         </table>
-     
+        </div>
     </div>
   </div>
     

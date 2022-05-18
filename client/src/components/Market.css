@@ -1,0 +1,69 @@
+body {
+  height: 100vh;
+}
+
+.heartIcon {
+  color: white;
+}
+
+.heartIcon:hover {
+  color: red;
+}
+
+.heartIcon:active {
+  color: red;
+}
+
+.heartIconClicked {
+  color:red;
+}
+
+.marketContainer {
+  min-height: 65vh;
+}
+
+.market1 {
+  border-radius: 25px;
+  padding: 30px;
+  background-color: rgb(66, 67, 69); 
+}
+
+
+.favourites1 {
+  padding: 30px;
+  display: inline-block;
+  position: relative;
+}
+
+.favourites1:hover {
+  border-radius: 25px;
+  color: #0087ca;
+  opacity: 50%;
+}
+
+.favourites1:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 3px;
+  bottom: 0;
+  left: 0;
+  background-color: #0087ca;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.favourites1:hover:after{
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.negative {
+  color: red;
+}
+
+
+.positive {
+  color: rgb(1, 199, 1);
+}
