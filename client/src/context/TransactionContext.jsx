@@ -85,7 +85,7 @@ export const TransactionProvider = ({children}) => {
         addUserToDB(accounts[0])
       } else {
         console.log("No accounts found")
-      }      
+      }   
     } catch (error) {
       console.log(error)
       throw new Error("no eth object")      

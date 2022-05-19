@@ -72,13 +72,12 @@ const MyFave = () => {
 
 
   
-  getTickerData();
 
 
   
-  const res = faveCoins.map( (x) => {
+  const res = faveCoins.map( (x,index) => {
     return (
-      <Tickercard key={x.id} id={x.id} symbol={x.symbol} name={x.name} price={x.current_price} priceChange24hr={x.price_change_percentage_24h} img={x.image} />
+      <Tickercard key={x.id+index} id={x.id} symbol={x.symbol} name={x.name} price={x.current_price} priceChange24hr={x.price_change_percentage_24h} img={x.image} />
     )
   }) 
   
