@@ -27,9 +27,11 @@ const Tickercard = ({lastCoinRef, index, id,symbol, name, price, img, priceChang
 }
 
 const Market = () => {
+  const [apiCoins, setApiCoins] = useState([])
+  const [search, setSearch] = useState("")
   const [pageNumber, setPageNumber] = useState(1)
-  const {coins, hasMore, loading, error} = useGetCoin(pageNumber)
-  const { changeMarketView } = useContext(MarketContext)
+  const {coins, hasMore, loading, error} = useGetCoin(pageNumber, search)
+  const { coinInfo, changeMarketView } = useContext(MarketContext)
   const { currentAccount } = useContext(TransactionContext)
   const observer = useRef()
   const lastCoinRef = useCallback(node => {
@@ -40,9 +42,7 @@ const Market = () => {
         setPageNumber(prevPage => prevPage + 1)
       }
     })
-    if (node) observer.current.observe(node)
-    console.log(node)
-   
+    if (node) observer.current.observe(node)   
   },[loading, hasMore])
 
   const faveItem = (symbolName) => {
@@ -64,8 +64,37 @@ const Market = () => {
       });
   }
 
-    
-  
+  const handleSearch = () => { 
+    return coinInfo.filter((coin) => (
+      coin.name.toLowerCase().includes(search) ||
+      coin.symbol.toLowerCase().includes(search)
+    ))
+  }
+ 
+  //renders all the coins available
+  const allCoins = coins.map((x,index) => {            
+    if (coins.length === index + 1) {
+      return (
+        <Tickercard key={x.id+index} index={index} id={x.id} symbol={x.symbol} name={x.name} price={x.current_price} priceChange24hr={x.price_change_percentage_24h} img={x.image} faveItem={faveItem} lastCoinRef={lastCoinRef}
+        /> 
+      )
+    } else {
+      return (
+        <Tickercard key={x.id+index} index={index} id={x.id} symbol={x.symbol} name={x.name} price={x.current_price} priceChange24hr={x.price_change_percentage_24h} img={x.image} faveItem={faveItem}
+        /> 
+      )
+    }
+  }) 
+
+  //Renders Coins for search term coins
+    const temp = handleSearch();
+    const searchCoin = temp.map((x,index) => {
+      return (
+        <Tickercard key={x.id+index} index={index} id={x.id} symbol={x.symbol} name={x.name} price={x.current_price} priceChange24hr={x.price_change_percentage_24h} img={x.image} faveItem={faveItem}
+        /> 
+      )
+    })
+ 
   return (
     <div className="flex w-full justify-center items-center gradient-bg-services">
       <div className="flex flex-col items-center justify-between md:p-20 py-12 px-4">
@@ -80,6 +109,13 @@ const Market = () => {
           <Link to={'/favourites'} >My Favourite</Link>
         </h1>
       </div>
+        <input 
+          onClick={handleSearch}
+          name="search"
+          value={search}
+          placeholder={"Enter Coin Name"}
+          onChange={(event)=>setSearch(event.target.value)}
+        />
         <table>
           <tbody>
             <tr>
@@ -88,20 +124,12 @@ const Market = () => {
               <th className="text-white px-20 py-2 text-gradient ">24hr Percent Change</th>
               <th className="text-white px-20 py-2 text-gradient">Favourite?</th>
             </tr>
-          {coins.map((x,index) => {            
-            if (coins.length === index + 1) {
-              console.log('am i here?')
-              return (
-                <Tickercard key={x.id} index={index} id={x.id} symbol={x.symbol} name={x.name} price={x.current_price} priceChange24hr={x.price_change_percentage_24h} img={x.image} faveItem={faveItem} lastCoinRef={lastCoinRef}
-                /> 
-              )
-            } else {
-              return (
-                <Tickercard key={x.id} index={index} id={x.id} symbol={x.symbol} name={x.name} price={x.current_price} priceChange24hr={x.price_change_percentage_24h} img={x.image} faveItem={faveItem}
-                /> 
-              )
+            {search? 
+              searchCoin :
+              allCoins
             }
-          })}        
+          
+   
         </tbody>
         </table>
         <div className="text-white text-3xl">{loading && 'Loading...'}</div>
