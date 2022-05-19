@@ -3,7 +3,7 @@ import axios from 'axios'
 import { MarketContext } from "../context/MarketContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { Link, useNavigate, useHistory } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import useGetCoin from "../customHooks/useGetCoin.jsx";
 import { TransactionContext } from "../context/TransactionContext";
 
@@ -29,7 +29,6 @@ const Tickercard = ({id, symbol, name, price, img, priceChange24hr, faveItem}) =
 
 
 const MyFave = () => {
-  const history = useHistory();
   const { currentAccount } = useContext(TransactionContext)
   const { coinInfo, getTickerData, handleSearch, changeMarketView, userID} = useContext(MarketContext)
   const [faveCoins, setFaveCoins] = useState([])
