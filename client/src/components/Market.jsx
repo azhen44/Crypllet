@@ -6,6 +6,7 @@ import { MarketContext } from "../context/MarketContext";
 import axios from "axios";
 import { TransactionContext } from "../context/TransactionContext";
 import useGetCoin from "../customHooks/useGetCoin.jsx";
+import qs from 'qs'
 
 const Tickercard = ({lastCoinRef, index, id,symbol, name, price, img, priceChange24hr, faveItem}) => {
 
@@ -46,18 +47,25 @@ const Market = () => {
   },[loading, hasMore])
 
   const faveItem = (symbolName) => {
-    const params = new URLSearchParams()
-    params.append('coin', symbolName)
-    params.append('wallet_address', currentAccount)
-    console.log(symbolName)   
-      axios.post("http://localhost:3001/user_coins", params
-        ,{
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
+    // const params = new URLSearchParams()
+    // params.append('coin', symbolName)
+    // params.append('wallet_address', currentAccount)
+    // console.log(symbolName)   
+      // axios.post("http://localhost:3001/user_coins", params
+      //   ,{
+      //   headers: {
+      //     'Content-Type': 'application/x-www-form-urlencoded'
+      //   }
+      // })
+      const data = { 'coin' : symbolName, 'wallet_address': currentAccount}
+      axios({
+        method: 'POST',
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(data),
+        url : "http://localhost:3001/user_coins"
       })
       .then(function (response) {
-        console.log(response);
+        console.log(response)
       })
       .catch(function (error) {
         console.log(error);
