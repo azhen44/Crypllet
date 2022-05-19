@@ -20,7 +20,7 @@ const App = () => {
             <Route path="/Market" element={<Market />} />
             <Route path="/Send" element={[<Homepage />, <Services />, <Transactions />]} />
             <Route path={`/${userID}/favourites`} element={<MyFave />} />
-            <Route path="/Market/*" element={<CoinPage />}/>
+            <Route path="/Market/:id" element={<CoinPage />}/>
           </Routes>
           <Footer />
         </div>           

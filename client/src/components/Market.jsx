@@ -12,7 +12,7 @@ const Tickercard = ({lastCoinRef, index, id,symbol, name, price, img, priceChang
 
   let navigate = useNavigate();
   const handleTableClicks = () => {
-    navigate(`/Market/${name}`)
+    navigate(`/Market/${name.toLowerCase()}`)
   }
   return (    
       <tr className="text-white text-base text-center mx-2 cursor-pointer">
