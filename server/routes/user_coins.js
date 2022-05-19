@@ -1,10 +1,11 @@
 const express = require('express');
-//import { findIDByWallet } from '../utils/findIDByWallet';
 const router = express.Router();
 
 module.exports = (db) => {
-  router.get("/user_coins", (req, res) => {
-    db.query(`SELECT * FROM user_coins;`)
+  router.get("/:id/user_coins", (req, res) => {
+    console.log(req.params.id)
+
+    db.query(`SELECT coin_id FROM user_coins WHERE user_id='${req.params.id}';`)
       .then(data => {
         res.json(data.rows);
       })

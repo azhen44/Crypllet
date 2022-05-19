@@ -1,62 +1,84 @@
-import React ,{useContext, useState} from "react";
+import React ,{useContext, useEffect, useState} from "react";
 import axios from 'axios'
 import { MarketContext } from "../context/MarketContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from 'react-router-dom'
 import useGetCoin from "../customHooks/useGetCoin.jsx";
+import { TransactionContext } from "../context/TransactionContext";
+
 
 const Tickercard = ({id, symbol, name, price, img, priceChange24hr, faveItem}) => {
+  
   let navigate = useNavigate();
   const handleTableClicks = () => {
     navigate(`/Market/${name}`)
   }
-  return (
-    
+  return (    
       <tr className="text-white text-base text-center mx-2 cursor-pointer">
-
           <td onClick={handleTableClicks} className="flex flex-col py-5 justify-center items-center">
             <img className="object-scale-down h-20 w-40" src={img}/>
             {`${name} ${symbol.toUpperCase()}`}
-          </td>                   
-
+          </td>                 
           <td> ${price}</td>
           <td className={priceChange24hr > 0? "text-green-600" : "text-red-600"}> {`${priceChange24hr.toFixed(2)}%`}</td>   
           <td><FontAwesomeIcon className="hover:fill-red-500" icon={faHeart}></FontAwesomeIcon></td>
       </tr>
-    
-    
   )
 }
 
 
 const MyFave = () => {
-  const faveItem = (symbolName) => {
-    const params = new URLSearchParams()
-    params.append('coin', symbolName)
-    params.append('wallet_address', currentAccount)
-    console.log(symbolName)   
-      axios.post("http://localhost:3001/user_coins", params
-        ,{
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  const { currentAccount } = useContext(TransactionContext)
+  const { coinInfo, getTickerData, handleSearch, changeMarketView, userID} = useContext(MarketContext)
+  const [faveCoins, setFaveCoins] = useState([])
+
+  const searchForCoin = (search) => {
+    const test = coinInfo.filter((coin) => (
+      coin.symbol.toLowerCase() === search     
+    ))
+    return test;
   }
 
-  const { coinInfo, getTickerData, isMyFave, changeMarketView} = useContext(MarketContext)
-  getTickerData();
-  const temp = coinInfo.slice(2,5)
+  const getMyFaves = async () => {      
+    try {
+      const res = await axios.get(`http://localhost:3001/${userID}/user_coins`)
+      if(res) {
+        const newArr = res.data.map(coin => {
+          return coin.coin_id
+        })
+        console.log(newArr)
+        let res2 = [];
+        newArr.forEach(search => {
+          console.log(search)
+          res2.push(...searchForCoin(String(search)))
+        })
+        setFaveCoins(res2)
+        //localStorage.setItem("faveCoins" , JSON.stringify(res2))
+      
+        
+             
+      }
+    } catch (error) {
+      console.log(error)
+      
+    }
+  }
+  useEffect(()=>{
+    console.log(currentAccount, userID)
+    getMyFaves();
   
-  const res = temp.map( (x) => {
+  },[])
+
+
+  
+  getTickerData();
+
+
+  
+  const res = faveCoins.map( (x) => {
     return (
-      <Tickercard key={x.id} id={x.id} symbol={x.symbol} name={x.name} price={x.current_price} priceChange24hr={x.price_change_percentage_24h} img={x.image} faveItem={faveItem} />
+      <Tickercard key={x.id} id={x.id} symbol={x.symbol} name={x.name} price={x.current_price} priceChange24hr={x.price_change_percentage_24h} img={x.image} />
     )
   }) 
   
@@ -70,7 +92,7 @@ const MyFave = () => {
           >
           <Link to={'/Market'} >Market</Link>
         </h2>
-        <h2 className='text-white text-3xl sm:text-5xl py-2 bg-neutral-600'>
+        <h2 className='text-white text-3xl sm:text-5xl py-2 bg-neutral-600' onClick={()=>console.log(faveCoins)}>
           My Favourites
         </h2>
       </div>

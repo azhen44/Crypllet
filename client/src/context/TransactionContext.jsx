@@ -21,6 +21,7 @@ const getEthereumContract = () => {
 }
 
 export const TransactionProvider = ({children}) => {
+
   const [currentAccount, setCurrentAccount] = useState("")
   const [formData, setFromData] = useState({addressTo: '', amount: '', keyword:'', message: ''})
   const [isLoading, setIsLoading] = useState(false)
@@ -64,10 +65,11 @@ export const TransactionProvider = ({children}) => {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       })
-      .then(function (response) {
-        console.log(response);
+      .then((response) => {
+        console.log('set userID', response.data.user_id)
+        localStorage.setItem("userID", String(response.data.user_id))
       })
-      .catch(function (error) {
+      .catch( (error) => {
         console.log(error);
       });
   }
@@ -155,6 +157,7 @@ export const TransactionProvider = ({children}) => {
       throw new Error("no eth object")     
     }
   }
+  
 
 
   return (
