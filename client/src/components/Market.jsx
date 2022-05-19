@@ -21,17 +21,17 @@ const Tickercard = ({lastCoinRef, index, id,symbol, name, price, img, priceChang
           </td>        
           <td> ${price}</td>
           <td className={priceChange24hr > 0? "text-green-600" : "text-red-600"}> {`${priceChange24hr.toFixed(2)}%`}</td>   
-          <td><FontAwesomeIcon className="hover:fill-red-500" onClick={() => faveItem(id)}icon={faHeart}></FontAwesomeIcon></td>
+          <td><FontAwesomeIcon className="hover:fill-red-500" onClick={() => faveItem(symbol)}icon={faHeart}></FontAwesomeIcon></td>
       </tr>
   )
 }
 
-const Market = () => {
+const Market = () => {  
   const [apiCoins, setApiCoins] = useState([])
   const [search, setSearch] = useState("")
   const [pageNumber, setPageNumber] = useState(1)
   const {coins, hasMore, loading, error} = useGetCoin(pageNumber, search)
-  const { coinInfo, changeMarketView } = useContext(MarketContext)
+  const { coinInfo, changeMarketView, handleSearch, userID } = useContext(MarketContext)
   const { currentAccount } = useContext(TransactionContext)
   const observer = useRef()
   const lastCoinRef = useCallback(node => {
@@ -64,12 +64,7 @@ const Market = () => {
       });
   }
 
-  const handleSearch = () => { 
-    return coinInfo.filter((coin) => (
-      coin.name.toLowerCase().includes(search) ||
-      coin.symbol.toLowerCase().includes(search)
-    ))
-  }
+
  
   //renders all the coins available
   const allCoins = coins.map((x,index) => {            
@@ -87,7 +82,7 @@ const Market = () => {
   }) 
 
   //Renders Coins for search term coins
-    const temp = handleSearch();
+    const temp = handleSearch(search);
     const searchCoin = temp.map((x,index) => {
       return (
         <Tickercard key={x.id+index} index={index} id={x.id} symbol={x.symbol} name={x.name} price={x.current_price} priceChange24hr={x.price_change_percentage_24h} img={x.image} faveItem={faveItem}
@@ -106,7 +101,7 @@ const Market = () => {
           className={`text-white text-3xl sm:text-5xl py-2`}
           onClick={changeMarketView}
         >
-          <Link to={'/favourites'} >My Favourite</Link>
+          <Link to={`/${userID}/favourites`} >My Favourite</Link>
         </h1>
       </div>
         <input 

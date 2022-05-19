@@ -19,8 +19,10 @@ module.exports = (db) => {
     db.query(`SELECT EXISTS(SELECT 1 FROM users WHERE wallet_address='${req.body.wallet_address}')`)
       .then((data) => {
         if(!data.rows[0].exists){
-          db.query(`INSERT INTO users (wallet_address) VALUES ('${req.body.wallet_address}')`)
-            .then(() => {
+          db.query(`INSERT INTO users (wallet_address) VALUES ('${req.body.wallet_address}') RETURNING id`)
+            .then((data) => {
+              console.log(data.rows[0].id)
+              res.json({user_id : data.rows[0].id})
               res.status(200)
             })
             .catch(err => {

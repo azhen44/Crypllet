@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Navbar, Homepage, Footer, LoadSpinner, Transactions, Services, Market, MyFave, CoinPage  } from './components'
 import {
   BrowserRouter as Router,
@@ -6,8 +6,10 @@ import {
   Link,
   Routes
 } from "react-router-dom";
+import { MarketContext } from './context/MarketContext';
 
 const App = () => {
+  const {userID} = useContext(MarketContext)
   return (
     <Router>
       <div className="min-h-screen">       
@@ -17,7 +19,7 @@ const App = () => {
             <Route path="/" element={<Market />} />
             <Route path="/Market" element={<Market />} />
             <Route path="/Send" element={[<Homepage />, <Services />, <Transactions />]} />
-            <Route path="/favourites" element={<MyFave />} />
+            <Route path={`/${userID}/favourites`} element={<MyFave />} />
             <Route path="/Market/*" element={<CoinPage />}/>
           </Routes>
           <Footer />

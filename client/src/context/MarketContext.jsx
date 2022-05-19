@@ -5,12 +5,20 @@ import axios from 'axios';
 
 
 export const MarketProvider = ({children}) => {
+  const [userID, setUserID] = useState()
   const [isMyFave, setIsMyFave] = useState(false)
   const [coinInfo, setCoinInfo] = useState([])
   const { checkIfTransactionExist, checkIfWalletIsConnnected} =useContext(TransactionContext)
 
   const changeMarketView = () => {
     setIsMyFave(!isMyFave)
+  }
+
+  const handleSearch = (search) => { 
+    return coinInfo.filter((coin) => (
+      coin.name.toLowerCase().includes(search) ||
+      coin.symbol.toLowerCase().includes(search)
+    ))
   }
   
 
@@ -29,16 +37,18 @@ export const MarketProvider = ({children}) => {
       console.error(error)
     }
   }
+
   useEffect(() => {
     checkIfWalletIsConnnected();
     checkIfTransactionExist();
-    getTickerData();  
+    getTickerData();
+    setUserID(parseInt(localStorage.getItem("userID"))) 
   },[])
 
 
 
   return (
-    <MarketContext.Provider value={{coinInfo, isMyFave, changeMarketView, getTickerData}}>
+    <MarketContext.Provider value={{coinInfo, isMyFave, changeMarketView, getTickerData, handleSearch, userID}}>
       {children}
     </MarketContext.Provider>
   )
