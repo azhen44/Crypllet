@@ -41,7 +41,6 @@ module.exports = (db) => {
             .then((data) => {
               console.log(data.rows[0].id)
               res.json({user_id : data.rows[0].id})
-              res.status(200)
             })
             .catch(err => {
               res
@@ -56,6 +55,7 @@ module.exports = (db) => {
         .json({ error: err.message });
       });
   })
+
 
   return router;
 };
