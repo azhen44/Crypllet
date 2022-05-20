@@ -67,6 +67,7 @@ export const TransactionProvider = ({children}) => {
       })
       .then((response) => {
         console.log('set userID', response.data.user_id)
+        console.log('i am res in addusertodb', response)
         localStorage.setItem("userID", String(response.data.user_id))
       })
       .catch( (error) => {
@@ -82,7 +83,9 @@ export const TransactionProvider = ({children}) => {
         setCurrentAccount(accounts[0])
         getAllTransactions()
         console.log("Connected Wallet: ", accounts[0])
-        addUserToDB(accounts[0])
+  
+          addUserToDB(accounts[0])
+        
       } else {
         console.log("No accounts found")
       }   

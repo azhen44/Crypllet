@@ -6,10 +6,10 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from 'react-router-dom'
 import useGetCoin from "../customHooks/useGetCoin.jsx";
 import { TransactionContext } from "../context/TransactionContext";
+import qs from 'qs'
 
-
-const Tickercard = ({id, symbol, name, price, img, priceChange24hr, faveItem}) => {
-  
+//Renders each coin
+const Tickercard = ({id, symbol, name, price, img, priceChange24hr, delFaveCoin}) => {  
   let navigate = useNavigate();
   const handleTableClicks = () => {
     navigate(`/Market/${name}`)
@@ -22,24 +22,43 @@ const Tickercard = ({id, symbol, name, price, img, priceChange24hr, faveItem}) =
           </td>                 
           <td> ${price}</td>
           <td className={priceChange24hr > 0? "text-green-600" : "text-red-600"}> {`${priceChange24hr.toFixed(2)}%`}</td>   
-          <td><FontAwesomeIcon className="hover:fill-red-500" icon={faHeart}></FontAwesomeIcon></td>
+          <td><FontAwesomeIcon className="hover:fill-red-500" onClick={() => delFaveCoin(symbol)} icon={faHeart}></FontAwesomeIcon></td>
       </tr>
   )
 }
 
 
 const MyFave = () => {
-  const { currentAccount } = useContext(TransactionContext)
-  const { coinInfo, getTickerData, handleSearch, changeMarketView, userID} = useContext(MarketContext)
-  const [faveCoins, setFaveCoins] = useState([])
+  const { currentAccount } = useContext(TransactionContext) //Wallet Address
+  const { coinInfo, changeMarketView, userID} = useContext(MarketContext) 
+  const [faveCoins, setFaveCoins] = useState([]) // favourite coins to be displayed
 
+  //searches for 
   const searchForCoin = (search) => {
-    const test = coinInfo.filter((coin) => (
+    return coinInfo.filter((coin) => (
       coin.symbol.toLowerCase() === search     
     ))
-    return test;
   }
 
+  //deletes coin from database
+  const delFaveCoin = (symbolName) => {
+    const data = { 'coin' : symbolName, 'wallet_address': currentAccount}
+    setFaveCoins((prev) => {
+      return prev.filter( each => each.symbol !== symbolName)    
+    })
+ 
+    axios({
+      method: 'DELETE',
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      data: qs.stringify(data),
+      url : "http://localhost:3001/del/user_coins"
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+
+  //gets my favourited coins from database
   const getMyFaves = async () => {      
     try {
       const res = await axios.get(`http://localhost:3001/${userID}/user_coins`)
@@ -47,37 +66,25 @@ const MyFave = () => {
         const newArr = res.data.map(coin => {
           return coin.coin_id
         })
-        console.log(newArr)
         let res2 = [];
         newArr.forEach(search => {
-          console.log(search)
           res2.push(...searchForCoin(String(search)))
         })
         setFaveCoins(res2)
-        //localStorage.setItem("faveCoins" , JSON.stringify(res2))
-      
-        
-             
       }
     } catch (error) {
       console.log(error)
-      
     }
   }
+
   useEffect(()=>{
     console.log(currentAccount, userID)
     getMyFaves();
-  
   },[])
 
-
-  
-
-
-  
   const res = faveCoins.map( (x,index) => {
     return (
-      <Tickercard key={x.id+index} id={x.id} symbol={x.symbol} name={x.name} price={x.current_price} priceChange24hr={x.price_change_percentage_24h} img={x.image} />
+      <Tickercard key={x.id+index} id={x.id} symbol={x.symbol} name={x.name} price={x.current_price} priceChange24hr={x.price_change_percentage_24h} img={x.image} delFaveCoin={delFaveCoin}/>
     )
   }) 
   

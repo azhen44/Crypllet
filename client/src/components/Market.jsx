@@ -12,7 +12,7 @@ const Tickercard = ({lastCoinRef, index, id,symbol, name, price, img, priceChang
 
   let navigate = useNavigate();
   const handleTableClicks = () => {
-    navigate(`/Market/${name.toLowerCase()}`)
+    navigate(`/Market/${id.toLowerCase()}`)
   }
   return (    
       <tr className="text-white text-base text-center mx-2 cursor-pointer">
@@ -22,42 +22,38 @@ const Tickercard = ({lastCoinRef, index, id,symbol, name, price, img, priceChang
           </td>        
           <td> ${price}</td>
           <td className={priceChange24hr > 0? "text-green-600" : "text-red-600"}> {`${priceChange24hr.toFixed(2)}%`}</td>   
-          <td><FontAwesomeIcon className="hover:fill-red-500" onClick={() => faveItem(symbol)}icon={faHeart}></FontAwesomeIcon></td>
+          <td><FontAwesomeIcon className="hover:fill-red-500" onClick={() => faveItem(symbol)} icon={faHeart}></FontAwesomeIcon></td>
       </tr>
   )
 }
 
 const Market = () => {  
-  const [apiCoins, setApiCoins] = useState([])
   const [search, setSearch] = useState("")
   const [pageNumber, setPageNumber] = useState(1)
   const {coins, hasMore, loading, error} = useGetCoin(pageNumber, search)
   const { coinInfo, changeMarketView, handleSearch, userID } = useContext(MarketContext)
   const { currentAccount } = useContext(TransactionContext)
+  
+  //hooks to determine if last item in coin list is on screen. if so api call for more coin data and render.
   const observer = useRef()
   const lastCoinRef = useCallback(node => {
     if (loading) return
     if (observer.current) observer.current.disconnect()
-    observer.current = new IntersectionObserver(entires => {
-      if (entires[0].isIntersecting && hasMore) {
+    //checks if element exists and hasMore is true. increase page Number to call more coin info.
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMore) {
         setPageNumber(prevPage => prevPage + 1)
       }
     })
     if (node) observer.current.observe(node)   
   },[loading, hasMore])
 
+  //saves favourite coins to database
   const faveItem = (symbolName) => {
-    // const params = new URLSearchParams()
-    // params.append('coin', symbolName)
-    // params.append('wallet_address', currentAccount)
-    // console.log(symbolName)   
-      // axios.post("http://localhost:3001/user_coins", params
-      //   ,{
-      //   headers: {
-      //     'Content-Type': 'application/x-www-form-urlencoded'
-      //   }
-      // })
       const data = { 'coin' : symbolName, 'wallet_address': currentAccount}
+      console.log(coins)
+      console.log(symbolName)
+      if (coins.some(e => e.symbol === symbolName)) console.log('there is a coin in here')
       axios({
         method: 'POST',
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
@@ -71,8 +67,6 @@ const Market = () => {
         console.log(error);
       });
   }
-
-
  
   //renders all the coins available
   const allCoins = coins.map((x,index) => {            

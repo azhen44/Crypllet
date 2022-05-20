@@ -14,13 +14,22 @@ const CoinPage = () => {
   const [days, setDays] = useState(1)
   const [price, setPrice] = useState()
   const [date, setDate] = useState()
+  const [isLoading, setIsLoading] = useState(true)
 
   const getData = async () => {
-    const res = await axios.get(`https://api.coingecko.com/api/v3/coins/${id}`)
-    console.log(res)
+    try {
+      const res = await axios.get(`https://api.coingecko.com/api/v3/coins/${id}`)
+      console.log(res)
+      setCoin(res)
+    } catch (error) {
+      console.log(error)
+    }
+
+   
   }
 
   const getHistory = async (id, days) => {
+    setIsLoading(true)
     const res = await axios.get(`https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=${days}`)
     const dates = res.data.prices.map(single => {
       let date = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(single[0])
@@ -31,8 +40,12 @@ const CoinPage = () => {
       return single[1].toFixed(2)
     })
     setPrice(prices)
-    
+    setIsLoading(false)
   }
+
+  useEffect( () => {
+    getData();
+  },[])
 
   useEffect( () => {
     getHistory(id, days)
@@ -40,6 +53,12 @@ const CoinPage = () => {
 
   return (
     <div className="flex w-full flex-col justify-center items-center gradient-bg-services">
+        <div className={"flex flex-row jusitify-center items-start"}>
+          <p>gg</p>
+  
+          
+        </div>
+
         <div className='flex flex-row text-white'>
           <h2 onClick={() => setDays(1)} className='px-5'>1 Day</h2>
           <h2 onClick={() => setDays(7)} className='px-5'>7 Day</h2>
@@ -47,22 +66,24 @@ const CoinPage = () => {
         </div>
     
        
-        <div className='flex w-full'>
-          <Line
-            data = {{
-              labels : date,
-              datasets : [
-                {
-                  title: "is this work",
-                  label:"gg",
-                  data: price,
-                  borderColor: 'rgb(255, 99, 132)',
-                  backgroundColor: 'rgba(255, 99, 132, 0.5)',
-              }
-              ]
-            }}
-          />
-        </div>
+        {isLoading? <h1 className='text-white'>LOADING</h1>
+          :<div className='flex w-full'>
+            <Line
+              data = {{
+                labels : date,
+                datasets : [
+                  {
+                    title: "is this work",
+                    label:"gg",
+                    data: price,
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                }
+                ]
+              }}
+            />
+          </div>
+        }
       
         
         

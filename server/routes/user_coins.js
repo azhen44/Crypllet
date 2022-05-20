@@ -17,25 +17,6 @@ module.exports = (db) => {
       });
   });
 
-  // router.post("/user_coins", (req, res) => {
-  //   db.query(`SELECT EXISTS(SELECT 1 FROM user_coins WHERE coin_id=$1);`,[req.body.coin])
-  //   .then (data => {
-  //     if(!data.rows[0].exists){
-  //       db.query(`SELECT id FROM users WHERE wallet_address=$1;`,[req.body.wallet_address])
-  //       .then (data => {
-  //         db.query(`INSERT INTO user_coins (user_id, coin_id) VALUES ($1, $2)`,[data.rows[0].id, req.body.coin])
-  //         .then(() => {
-  //           res.status(200)
-  //         })
-  //         .catch(err => {
-  //           res
-  //             .status(500)
-  //             .json({ error: err.message });
-  //         });
-  //       })
-  //     }
-  //   })
-  // })
 
   router.post("/user_coins", async (req, res) => {
     try {
@@ -45,15 +26,23 @@ module.exports = (db) => {
           await db.query(`INSERT INTO user_coins (user_id, coin_id) VALUES ($1, $2)`,[userID.rows[0].id, req.body.coin])
           res.sendStatus(200)
         } else return
-
-
-
-
     } catch (error) {
       console.log(error)
     }
+  })
 
-
+  router.delete("/del/user_coins", async (req, res) => {
+    try {
+      const isExist = await db.query(`SELECT EXISTS(SELECT 1 FROM user_coins WHERE coin_id=$1);`,[req.body.coin])
+        if (isExist.rows[0].exists) {
+          const userID = await db.query(`SELECT id FROM users WHERE wallet_address=$1;`,[req.body.wallet_address])
+          //console.log(req.body)
+          await db.query(`DELETE FROM user_coins WHERE coin_id=$2 AND user_id=$1 `,[userID.rows[0].id, req.body.coin])
+          res.sendStatus(200)
+        } else return
+    } catch (error) {
+      console.log(error)
+    }
   })
 
 
