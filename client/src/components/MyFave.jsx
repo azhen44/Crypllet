@@ -12,7 +12,7 @@ import qs from 'qs'
 const Tickercard = ({id, symbol, name, price, img, priceChange24hr, delFaveCoin}) => {  
   let navigate = useNavigate();
   const handleTableClicks = () => {
-    navigate(`/Market/${name}`)
+    navigate(`/Market/${name.toLowerCase()}`)
   }
   return (    
       <tr className="text-white text-base text-center mx-2 cursor-pointer">
