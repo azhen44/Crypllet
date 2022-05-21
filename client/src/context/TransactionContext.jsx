@@ -62,7 +62,7 @@ export const TransactionProvider = ({children}) => {
       axios.post("http://localhost:3001/users", params
         ,{
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
+          
         }
       })
       .then((response) => {
@@ -83,10 +83,14 @@ export const TransactionProvider = ({children}) => {
       if (accounts.length) {
         setCurrentAccount(accounts[0])
         getAllTransactions()
+        const params = new URLSearchParams()
+        params.append('wallet_address', currentAccount)
+        console.log(params)
         console.log("Connected Wallet: ", accounts[0])
-        if (!userID) {
-          addUserToDB(accounts[0])
-        }
+        const getID = await axios.get('http://localhost:3001/getmyid', { params: {wallet_address : accounts[0]}})
+        console.log('id from backend', getID.data[0].id)
+        setUserID(getID.data[0].id)
+    
         
       } else {
         console.log("No accounts found")
@@ -116,6 +120,11 @@ export const TransactionProvider = ({children}) => {
     try {
       if (!ethereum) return alert ("Please install metamask");
       const accounts = await ethereum.request({method: 'eth_requestAccounts'})
+      if (accounts) {
+        if (!userID) {
+          addUserToDB(accounts[0])
+        }
+      }
 
       window.location.reload();
 
