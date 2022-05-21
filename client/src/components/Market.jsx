@@ -22,7 +22,7 @@ const Tickercard = ({lastCoinRef, index, id,symbol, name, price, img, priceChang
           </td>        
           <td> ${price}</td>
           <td className={priceChange24hr > 0? "text-green-600" : "text-red-600"}> {`${priceChange24hr.toFixed(2)}%`}</td>   
-          <td><FontAwesomeIcon className="hover:fill-red-500" onClick={() => faveItem(symbol)} icon={faHeart}></FontAwesomeIcon></td>
+          <td><FontAwesomeIcon className="hover:fill-red-500" onClick={() => faveItem(symbol, index)} icon={faHeart}></FontAwesomeIcon></td>
       </tr>
   )
 }
@@ -31,8 +31,8 @@ const Market = () => {
   const [search, setSearch] = useState("")
   const [pageNumber, setPageNumber] = useState(1)
   const {coins, hasMore, loading, error} = useGetCoin(pageNumber, search)
-  const { coinInfo, changeMarketView, handleSearch, userID } = useContext(MarketContext)
-  const { currentAccount } = useContext(TransactionContext)
+  const { coinInfo, changeMarketView, handleSearch, faveCoins, setFaveCoins } = useContext(MarketContext)
+  const { currentAccount, userID } = useContext(TransactionContext)
   
   //hooks to determine if last item in coin list is on screen. if so api call for more coin data and render.
   const observer = useRef()
@@ -49,23 +49,31 @@ const Market = () => {
   },[loading, hasMore])
 
   //saves favourite coins to database
-  const faveItem = (symbolName) => {
+  const faveItem = (symbolName, index) => {
+    if(userID) {
+      console.log(userID)
       const data = { 'coin' : symbolName, 'wallet_address': currentAccount}
-      console.log(coins)
       console.log(symbolName)
-      if (coins.some(e => e.symbol === symbolName)) console.log('there is a coin in here')
-      axios({
-        method: 'POST',
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        data: qs.stringify(data),
-        url : "http://localhost:3001/user_coins"
-      })
-      .then(function (response) {
-        console.log(response)
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      if (!faveCoins.some(e => e.symbol === symbolName)) {
+        console.log(coins[index])
+        
+        setFaveCoins((prev) => [...prev, coins[index]])
+        console.log('fave coins in faveItem func', faveCoins)
+        axios({
+          method: 'POST',
+          headers: { 'content-type': 'application/x-www-form-urlencoded' },
+          data: qs.stringify(data),
+          url : "http://localhost:3001/user_coins"
+        })
+        .then(function (response) {
+          console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      }
+    } else alert("Please log in to fave")
+
   }
  
   //renders all the coins available

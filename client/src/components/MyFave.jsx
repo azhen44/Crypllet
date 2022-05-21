@@ -29,16 +29,10 @@ const Tickercard = ({id, symbol, name, price, img, priceChange24hr, delFaveCoin}
 
 
 const MyFave = () => {
-  const { currentAccount } = useContext(TransactionContext) //Wallet Address
-  const { coinInfo, changeMarketView, userID} = useContext(MarketContext) 
-  const [faveCoins, setFaveCoins] = useState([]) // favourite coins to be displayed
+  const { currentAccount, userID} = useContext(TransactionContext) //Wallet Address
+  const { coinInfo, changeMarketView,  faveCoins, setFaveCoins, getMyFaves} = useContext(MarketContext) 
+ 
 
-  //searches for 
-  const searchForCoin = (search) => {
-    return coinInfo.filter((coin) => (
-      coin.symbol.toLowerCase() === search     
-    ))
-  }
 
   //deletes coin from database
   const delFaveCoin = (symbolName) => {
@@ -57,36 +51,22 @@ const MyFave = () => {
       console.log(error);
     });
   }
-
-  //gets my favourited coins from database
-  const getMyFaves = async () => {      
-    try {
-      const res = await axios.get(`http://localhost:3001/${userID}/user_coins`)
-      if(res) {
-        const newArr = res.data.map(coin => {
-          return coin.coin_id
-        })
-        let res2 = [];
-        newArr.forEach(search => {
-          res2.push(...searchForCoin(String(search)))
-        })
-        setFaveCoins(res2)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  useEffect(()=>{
-    console.log(currentAccount, userID)
-    getMyFaves();
-  },[])
+  console.log('favecoins in myfave', faveCoins)
 
   const res = faveCoins.map( (x,index) => {
     return (
       <Tickercard key={x.id+index} id={x.id} symbol={x.symbol} name={x.name} price={x.current_price} priceChange24hr={x.price_change_percentage_24h} img={x.image} delFaveCoin={delFaveCoin}/>
     )
   }) 
+
+
+
+
+  useEffect(()=>{
+    //console.log(currentAccount, userID)
+    //getMyFaves();
+  },[])
+
   
   return (
     <div className="flex py-40 w-full justify-center items-center gradient-bg-services">

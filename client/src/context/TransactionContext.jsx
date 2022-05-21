@@ -21,7 +21,7 @@ const getEthereumContract = () => {
 }
 
 export const TransactionProvider = ({children}) => {
-
+  const [userID, setUserID] = useState()
   const [currentAccount, setCurrentAccount] = useState("")
   const [formData, setFromData] = useState({addressTo: '', amount: '', keyword:'', message: ''})
   const [isLoading, setIsLoading] = useState(false)
@@ -69,6 +69,7 @@ export const TransactionProvider = ({children}) => {
         console.log('set userID', response.data.user_id)
         console.log('i am res in addusertodb', response)
         localStorage.setItem("userID", String(response.data.user_id))
+        setUserID(response.data.user_id)
       })
       .catch( (error) => {
         console.log(error);
@@ -83,8 +84,9 @@ export const TransactionProvider = ({children}) => {
         setCurrentAccount(accounts[0])
         getAllTransactions()
         console.log("Connected Wallet: ", accounts[0])
-  
+        if (!userID) {
           addUserToDB(accounts[0])
+        }
         
       } else {
         console.log("No accounts found")
@@ -164,7 +166,7 @@ export const TransactionProvider = ({children}) => {
 
 
   return (
-    <TransactionContext.Provider value={{ connectWallet, currentAccount, formData, setFromData, handleChange, sendTransaction, transactions, isLoading, transactionCount, checkIfTransactionExist, checkIfWalletIsConnnected}}>
+    <TransactionContext.Provider value={{ userID, setUserID, connectWallet, currentAccount, formData, setFromData, handleChange, sendTransaction, transactions, isLoading, transactionCount, checkIfTransactionExist, checkIfWalletIsConnnected}}>
       {children}
     </TransactionContext.Provider>
   )
