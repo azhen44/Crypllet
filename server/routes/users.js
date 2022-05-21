@@ -2,23 +2,25 @@ const express = require('express');
 const router = express.Router();
 
 module.exports = (db) => {
-  // router.get("/users", (req, res) => {
-  //   db.query(`SELECT * FROM users;`)
-  //     .then(data => {
-  //       console.log(data.rows)
-  //       res.json(data.rows);
-  //       res.status(200)
-  //     })
-  //     .catch(err => {
-  //       res
-  //         .status(500)
-  //         .json({ error: err.message });
-  //     });
-  // });
+  router.get("/getmyid", async (req, res) => {
+    //console.log(req.query)
+    console.log('address from query' , req.query.wallet_address)
+    try {
+      const myID = await db.query(`SELECT id from users where wallet_address=$1;`,[req.query.wallet_address])
+      if (myID) {
+        res.json(myID.rows);
+        console.log('found ID', myID.rows[0])
+      }
+
+    } catch (error) {
+
+    }
+
+  });
 
   router.get('/users', async (req, res) => {
     try {
-      const data = await db.query(`SELECT * FROM users;`)
+      const data =
       res.json(data.rows)
       res.status(200)
       console.log(data.rows)

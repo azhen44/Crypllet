@@ -51,9 +51,7 @@ const Market = () => {
   //saves favourite coins to database
   const faveItem = (symbolName, index) => {
     if(userID) {
-      console.log(userID)
       const data = { 'coin' : symbolName, 'wallet_address': currentAccount}
-      console.log(symbolName)
       if (!faveCoins.some(e => e.symbol === symbolName)) {
         console.log(coins[index])
         
