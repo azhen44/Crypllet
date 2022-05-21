@@ -5,10 +5,10 @@ import axios from 'axios';
 
 
 export const MarketProvider = ({children}) => {
-  const [userID, setUserID] = useState()
+  const [faveCoins, setFaveCoins] = useState([]) // favourite coins to be displayed  
   const [isMyFave, setIsMyFave] = useState(false)
   const [coinInfo, setCoinInfo] = useState([])
-  const { checkIfTransactionExist, checkIfWalletIsConnnected} =useContext(TransactionContext)
+  const { checkIfTransactionExist, checkIfWalletIsConnnected, userID, setUserID} =useContext(TransactionContext)
 
   const changeMarketView = () => {
     setIsMyFave(!isMyFave)
@@ -38,17 +38,44 @@ export const MarketProvider = ({children}) => {
     }
   }
 
+  //searches for 
+  const searchForCoin = (search) => {
+    return coinInfo.filter((coin) => (
+      coin.symbol.toLowerCase() === search     
+    ))
+  }
+
+    //gets my favourited coins from database
+    const getMyFaves = async () => {      
+      try {
+        const res = await axios.get(`http://localhost:3001/${localStorage.getItem("userID")}/user_coins`)
+        if(res) {
+          const newArr = res.data.map(coin => {
+            return coin.coin_id
+          })
+          let res2 = [];
+          newArr.forEach(search => {
+            res2.push(...searchForCoin(String(search)))
+          })
+          setFaveCoins(res2)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
   useEffect(() => {
     checkIfWalletIsConnnected();
     checkIfTransactionExist();
     getTickerData();
-    setUserID(parseInt(localStorage.getItem("userID"))) 
+    getMyFaves();
+    //setUserID(parseInt(localStorage.getItem("userID"))) 
   },[])
 
 
 
   return (
-    <MarketContext.Provider value={{coinInfo, isMyFave, changeMarketView, getTickerData, handleSearch, userID}}>
+    <MarketContext.Provider value={{coinInfo, isMyFave, changeMarketView, getTickerData, handleSearch, userID, faveCoins, setFaveCoins, getMyFaves}}>
       {children}
     </MarketContext.Provider>
   )
