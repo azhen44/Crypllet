@@ -47,8 +47,6 @@ export const TransactionProvider = ({children}) => {
         keyword: transaction.keyword,
         amount: parseInt(transaction.amount._hex) / (10 ** 18)
       }));
-      //console.log(structuredTransactions)
-      //console.log('am i rev?', structuredTransactions.reverse())
       setTransactions(structuredTransactions.reverse())
     } catch (error) {
       console.log(error)
