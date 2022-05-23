@@ -1,5 +1,6 @@
 // load .env data into process.env
 require("dotenv").config();
+const bodyParser = require('body-parser')
 
 // Web server config
 const PORT = process.env.PORT || 3001;
@@ -14,7 +15,9 @@ const dbParams = require("./db");
 const db = new Pool(dbParams);
 db.connect();
 
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(morgan("dev"));
+app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cors())

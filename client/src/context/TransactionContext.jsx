@@ -21,6 +21,7 @@ const getEthereumContract = () => {
 }
 
 export const TransactionProvider = ({children}) => {
+  const [userID, setUserID] = useState()
   const [currentAccount, setCurrentAccount] = useState("")
   const [formData, setFromData] = useState({addressTo: '', amount: '', keyword:'', message: ''})
   const [isLoading, setIsLoading] = useState(false)
@@ -46,8 +47,6 @@ export const TransactionProvider = ({children}) => {
         keyword: transaction.keyword,
         amount: parseInt(transaction.amount._hex) / (10 ** 18)
       }));
-      //console.log(structuredTransactions)
-      //console.log('am i rev?', structuredTransactions.reverse())
       setTransactions(structuredTransactions.reverse())
     } catch (error) {
       console.log(error)
@@ -61,13 +60,16 @@ export const TransactionProvider = ({children}) => {
       axios.post("http://localhost:3001/users", params
         ,{
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
+          
         }
       })
-      .then(function (response) {
-        console.log(response);
+      .then((response) => {
+        console.log('set userID', response.data.user_id)
+        console.log('i am res in addusertodb', response)
+        localStorage.setItem("userID", String(response.data.user_id))
+        setUserID(response.data.user_id)
       })
-      .catch(function (error) {
+      .catch( (error) => {
         console.log(error);
       });
   }
@@ -79,11 +81,18 @@ export const TransactionProvider = ({children}) => {
       if (accounts.length) {
         setCurrentAccount(accounts[0])
         getAllTransactions()
+        const params = new URLSearchParams()
+        params.append('wallet_address', currentAccount)
+        console.log(params)
         console.log("Connected Wallet: ", accounts[0])
-        addUserToDB(accounts[0])
+        const getID = await axios.get('http://localhost:3001/getmyid', { params: {wallet_address : accounts[0]}})
+        console.log('id from backend', getID.data[0].id)
+        setUserID(getID.data[0].id)
+    
+        
       } else {
         console.log("No accounts found")
-      }      
+      }   
     } catch (error) {
       console.log(error)
       throw new Error("no eth object")      
@@ -109,6 +118,11 @@ export const TransactionProvider = ({children}) => {
     try {
       if (!ethereum) return alert ("Please install metamask");
       const accounts = await ethereum.request({method: 'eth_requestAccounts'})
+      if (accounts) {
+        if (!userID) {
+          addUserToDB(accounts[0])
+        }
+      }
 
       window.location.reload();
 
@@ -155,10 +169,11 @@ export const TransactionProvider = ({children}) => {
       throw new Error("no eth object")     
     }
   }
+  
 
 
   return (
-    <TransactionContext.Provider value={{ connectWallet, currentAccount, formData, setFromData, handleChange, sendTransaction, transactions, isLoading, transactionCount, checkIfTransactionExist, checkIfWalletIsConnnected}}>
+    <TransactionContext.Provider value={{ userID, setUserID, connectWallet, currentAccount, formData, setFromData, handleChange, sendTransaction, transactions, isLoading, transactionCount, checkIfTransactionExist, checkIfWalletIsConnnected}}>
       {children}
     </TransactionContext.Provider>
   )
