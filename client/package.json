@@ -17,10 +17,7 @@
     "react-chartjs-2": "^4.1.0",
     "react-dom": "^18.0.0",
     "react-icons": "^4.3.1",
-<<<<<<< HEAD
     "react-router-dom": "^6.3.0",
-=======
->>>>>>> master
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-fontawesome": "^0.1.18"

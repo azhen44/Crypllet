@@ -71,3 +71,23 @@ td:not(.heartContainer):not(.deleteFave):hover {
 .positive {
   color: rgb(1, 199, 1);
 }
+
+.searchBarContainer {
+  padding-top: 30px;
+  padding-bottom: 50px;
+  display: flex;
+  justify-content: center;
+
+}
+
+.searchBar {
+ padding: 10px;
+ width: 50%;
+ border-radius: 10px;
+ border: red;
+}
+
+input:active, input:focus {
+  outline: none;
+  background-color: #93acfc;
+}
