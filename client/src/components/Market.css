@@ -18,6 +18,10 @@ body {
   color:red;
 }
 
+td:not(.heartContainer):not(.deleteFave):hover {
+  background-color: rgba(255,255,255,0.3);
+}
+
 .marketContainer {
   min-height: 65vh;
 }

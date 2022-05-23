@@ -25,8 +25,8 @@ const favouriteClicked = () => {
           <td className="py-5"><img className="object-scale-down h-20 w-40" src={img}/></td> <br/> {name + ' ' + symbol.toUpperCase()}                
         </Link>
           <td> ${price}</td>
-          <td className={priceChange24hr > 0? "text-green-600" : "text-red-600"}> {`${priceChange24hr.toFixed(2)}%`}</td>   
-          <td><FontAwesomeIcon className={favourite ? "heartIconClicked" : "heartIcon"} onClick={favouriteClicked}icon={faHeart}></FontAwesomeIcon></td>
+          <td className={priceChange24hr > 0? "positive" : "negative"}> {`${priceChange24hr.toFixed(2)}%`}</td>   
+          <td className="heartContainer"><FontAwesomeIcon className={favourite ? "heartIconClicked" : "heartIcon"} onClick={favouriteClicked}icon={faHeart}></FontAwesomeIcon></td>
       </tr>
     
     
@@ -37,7 +37,7 @@ const Market = () => {
   const { coinInfo, changeMarketView} = useContext(MarketContext)
   const { currentAccount } = useContext(TransactionContext)
 
-  const faveItem = (symbolName) => {
+  const faveItem = (symbolName, favourite) => {
       const params = new URLSearchParams()
     params.append('coin', symbolName)
     params.append('wallet_address', currentAccount)
@@ -70,8 +70,8 @@ const Market = () => {
   
   return (
     <div className={`marketContainer flex w-full justify-center items-center gradient-bg-services`}>
-      <div className="">
-       <div className="flex space-x-24 pb-8 pt-8" >
+      <div>
+       <div className="flex justify-center space-x-24 pb-8 pt-8" >
         <h2 className={`market1 text-white text-3xl sm:text-5xl py-2`}>
           Market
         </h2>
@@ -85,10 +85,10 @@ const Market = () => {
         <table className="border-8">
           <tbody>
             <tr>
-              <th className="text-white px-20 py-2 text-gradient ">Coin</th>
-              <th className="text-white px-20 py-2 text-gradient ">Price ($USD) </th>
-              <th className="text-white px-20 py-2 text-gradient ">24hr Percent Change</th>
-              <th className="text-white px-20 py-2 text-gradient">Favourite?</th>
+              <th className="text-white px-20 py-2 ">Coin</th>
+              <th className="text-white px-20 py-2 ">Price ($USD) </th>
+              <th className="text-white px-20 py-2 ">24hr Percent Change</th>
+              <th className="text-white px-20 py-2 ">Add to Watchlist</th>
             </tr>
           {res}
         </tbody>

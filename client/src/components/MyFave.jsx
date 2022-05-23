@@ -3,19 +3,19 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { MarketContext } from "../context/MarketContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faX } from "@fortawesome/free-solid-svg-icons";
 import "../components/MyFave.css";
 
 const Tickercard = ({symbol, name, price, img, priceChange24hr, faveItem}) => {
   return (
     
-      <tr className="text-white text-base text-center mx-2 cursor-pointer">
+      <tr className="text-white text-center cursor-pointer">
         <Link to={`/Market/${name}`}>
-          <td className="py-5"><img className="object-scale-down h-20 w-40" src={img}/></td> <br/> {name + ' '+ symbol.toUpperCase()}                
+          <td className=""><img className="object-scale-down h-20 w-40" src={img}/></td> <br/> {name + ' '+ symbol.toUpperCase()}                
         </Link>
           <td> ${price}</td>
-          <td className={priceChange24hr > 0? "text-green-600" : "text-red-600"}> {`${priceChange24hr.toFixed(2)}%`}</td>   
-          <td><FontAwesomeIcon className="hover:fill-red-500" icon={faHeart}></FontAwesomeIcon></td>
+          <td className={priceChange24hr > 0? "positive" : "negative"}> {`${priceChange24hr.toFixed(2)}%`}</td>   
+          <td className="deleteFave"><FontAwesomeIcon className="xButton" icon={faX}></FontAwesomeIcon></td>
       </tr>
     
     
@@ -43,17 +43,6 @@ const MyFave = () => {
       });
   }
 
-  const MakePosNeg = () => {
-    let TDs = document.getElementsByClassName('changePercent');
-
-    for (let i = 0; i < TDs.length; i++) {
-      const temp = TDs[i];
-      if (temp.firstChild.nodeValue.indexOf('-') == 0) {temp.className = "negative";} 
-      else {temp.className = "positive";}
-    }
-  }
-  onload = MakePosNeg();
-
   const { coinInfo, isMyFave, changeMarketView} = useContext(MarketContext)
   const temp = coinInfo.slice(2,5)
   console.log(isMyFave)
@@ -66,7 +55,7 @@ const MyFave = () => {
   return (
     <div className="favouriteContainer flex w-full justify-center items-center gradient-bg-services">
     <div className="">
-      <div className="pb-60 flex space-x-24">
+      <div className="pb-40 pt-10 flex space-x-24 justify-center">
         <h2 
           className='market text-white text-3xl sm:text-5xl py-2'
           onClick={changeMarketView}
@@ -84,7 +73,7 @@ const MyFave = () => {
               <th className="text-white py-2 px-3">Symbol</th>
               <th className="text-white py-2 px-3">Price</th>
               <th className="text-white py-2 px-3">24hr Change</th>
-              <th className="text-white px-20 py-2 text-gradient">Favourite?</th>
+              <th className="text-white px-20">Remove Favourite</th>
             </tr>
             {res}
           </tbody>         

@@ -1,10 +1,10 @@
-.heartIcon {
-  color: white;
+/* .deleteFav {
+  color: rgb(255, 255, 255);
 }
 
-.heartIcon:hover {
+.deleteFav:hover {
   color: red;
-}
+} */
 
 .favouriteContainer {
   min-height: 65vh;
@@ -20,17 +20,12 @@ table {
 
 th,
 td {
-  padding: 20px;
+  padding: 40px;
   color: #fff;
 }
 
 tr:first-child {
   background-color: gray;
-}
-
-
-td:not(.heartContainer):hover {
-  background-color: rgba(255,255,255,0.3);
 }
 
 .favourites {
@@ -77,4 +72,8 @@ td:not(.heartContainer):hover {
 
 .positive {
   color: rgb(1, 199, 1);
+}
+
+.xButton:hover {
+  color: red;
 }
