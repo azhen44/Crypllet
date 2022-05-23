@@ -21,13 +21,8 @@ const Tickercard = ({lastCoinRef, index, id,symbol, name, price, img, priceChang
             {`${name} ${symbol.toUpperCase()}`}
           </td>        
           <td> ${price}</td>
-<<<<<<< HEAD
-          <td className={priceChange24hr > 0? "positive" : "negative"}> {`${priceChange24hr.toFixed(2)}%`}</td>   
-          <td className="heartContainer"><FontAwesomeIcon className={favourite ? "heartIconClicked" : "heartIcon"} onClick={favouriteClicked}icon={faHeart}></FontAwesomeIcon></td>
-=======
           <td className={priceChange24hr > 0? "text-green-600" : "text-red-600"}> {`${priceChange24hr.toFixed(2)}%`}</td>   
           <td><FontAwesomeIcon className="hover:fill-red-500" onClick={() => faveItem(symbol, index)} icon={faHeart}></FontAwesomeIcon></td>
->>>>>>> master
       </tr>
   )
 }
@@ -53,25 +48,6 @@ const Market = () => {
     if (node) observer.current.observe(node)   
   },[loading, hasMore])
 
-<<<<<<< HEAD
-  const faveItem = (symbolName, favourite) => {
-      const params = new URLSearchParams()
-    params.append('coin', symbolName)
-    params.append('wallet_address', currentAccount)
-    console.log(symbolName)   
-      axios.post("http://localhost:3001/user_coins", params
-        ,{
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-=======
   //saves favourite coins to database
   const faveItem = (symbolName, index) => {
     if(userID) {
@@ -95,7 +71,6 @@ const Market = () => {
         });
       }
     } else alert("Please log in to fave")
->>>>>>> master
 
   }
  
