@@ -7,6 +7,7 @@ import axios from "axios";
 import { TransactionContext } from "../context/TransactionContext";
 import useGetCoin from "../customHooks/useGetCoin.jsx";
 import qs from 'qs'
+import "./Market.css";
 
 const Tickercard = ({lastCoinRef, index, id,symbol, name, price, img, priceChange24hr, faveItem}) => {
 
@@ -21,8 +22,8 @@ const Tickercard = ({lastCoinRef, index, id,symbol, name, price, img, priceChang
             {`${name} ${symbol.toUpperCase()}`}
           </td>        
           <td> ${price}</td>
-          <td className={priceChange24hr > 0? "text-green-600" : "text-red-600"}> {`${priceChange24hr.toFixed(2)}%`}</td>   
-          <td><FontAwesomeIcon className="hover:fill-red-500" onClick={() => faveItem(symbol, index)} icon={faHeart}></FontAwesomeIcon></td>
+          <td className={priceChange24hr > 0? "positive" : "negative"}> {`${priceChange24hr.toFixed(2)}%`}</td>   
+          <td className="heartContainer"><FontAwesomeIcon className="heartIcon" onClick={() => faveItem(symbol, index)} icon={faHeart}></FontAwesomeIcon></td>
       </tr>
   )
 }
@@ -70,7 +71,7 @@ const Market = () => {
           console.log(error);
         });
       }
-    } else alert("Please log in to fave")
+    } else alert("Please log in to create your watchlist")
 
   }
  
@@ -112,14 +113,17 @@ const Market = () => {
           <Link to={`/${userID}/favourites`} >My Favourite</Link>
         </h2>
       </div>
+      <div className="searchBarContainer">
         <input 
+          className="searchBar"
           onClick={handleSearch}
           name="search"
           value={search}
           placeholder={"Enter Coin Name"}
           onChange={(event)=>setSearch(event.target.value)}
         />
-        <table>
+        </div>
+        <table className="rounded-lg my-10">
           <tbody>
             <tr>
               <th className="text-white px-20 py-2 ">Coin</th>

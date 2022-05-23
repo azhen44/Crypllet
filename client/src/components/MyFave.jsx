@@ -6,6 +6,7 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from 'react-router-dom'
 import useGetCoin from "../customHooks/useGetCoin.jsx";
 import { TransactionContext } from "../context/TransactionContext";
+import "./MyFave.css"
 import qs from 'qs'
 
 //Renders each coin
@@ -59,9 +60,6 @@ const MyFave = () => {
     )
   }) 
 
-
-
-
   useEffect(()=>{
     console.log(currentAccount, userID)
     getMyFaves();
@@ -78,7 +76,7 @@ const MyFave = () => {
           >
           <Link to={'/Market'} >Market</Link>
         </h2>
-        <h2 className='text-white text-3xl sm:text-5xl py-2 bg-neutral-600' onClick={()=>console.log(faveCoins)}>
+        <h2 className='favourites text-white text-3xl sm:text-5xl py-2 bg-neutral-600' onClick={()=>console.log(faveCoins)}>
           My Favourites
         </h2>
       </div>
