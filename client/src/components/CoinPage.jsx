@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { Chart, Line } from 'react-chartjs-2';
 import { Chart as ChartJS, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale } from 'chart.js';
 import parse from 'html-react-parser';
+import LoadSpinner from './LoadSpinner';
 
 const InfoCard = ({props}) => {
   const summary = props.description.en.split(',',[1])[0]
@@ -91,8 +92,7 @@ const CoinPage = () => {
     getHistory(id, days)
   },[days])
 
-  return (
-    
+  return (    
     <div className="flex w-full flex-col justify-center items-center gradient-bg-services ">      
         <div className={"flex flex-col jusitify-center items-start"}>
           <table className='text-white'>
@@ -108,19 +108,22 @@ const CoinPage = () => {
             </tbody>
           </table>  
           {!isGetDataLoading &&
-            <div className="text-white text-base text-center mx-2 cursor-pointer">
+            <div className="flex w-full justify-center text-white text-base text-center mx-2 cursor-pointer pt-2 pb-6 border-b-2">
               {parse(coin.description.en.split(". ")[0])}.
             </div>
           }   
         </div>
 
-        <div className='flex flex-row text-white'>
-          <h2 onClick={() => setDays(1)} className='px-5'>1 Day</h2>
-          <h2 onClick={() => setDays(7)} className='px-5'>7 Day</h2>
-          <h2 onClick={() => setDays(30)} className='px-5'>30 Day</h2>
+        <div className='flex flex-row content-center bg-gray-900 rounded  text-white py-2' >
+          <h2 onClick={() => setDays(1)} className={days === 1? "px-4 rounded bg-gray-600" : "rounded px-4"}>1D</h2>
+          <h2 onClick={() => setDays(7)} className={days === 7? "px-4 rounded bg-gray-600" : "rounded px-4"}>7D</h2>
+          <h2 onClick={() => setDays(30)} className={days === 30? "px-4 rounded bg-gray-600" : "rounded px-4"}>1M</h2>
+          <h2 onClick={() => setDays(90)} className={days === 90? "px-4 rounded bg-gray-600" : "rounded px-4"}>3M</h2>
+          <h2 onClick={() => setDays(365)} className={days === 365? "px-4 rounded bg-gray-600" : "rounded px-4"}>1Y</h2>
+          <h2 onClick={() => setDays('max')} className={days === 'max'? "px-4 rounded bg-gray-600" : "rounded px-4"}>ALL</h2>
         </div> 
        
-        {isLoading? <h1 className='text-white'>LOADING</h1>
+        {isLoading? <LoadSpinner />
           :<div className='flex w-full'>
             <Line
               data = {{
@@ -132,6 +135,7 @@ const CoinPage = () => {
                     data: price,
                     borderColor: 'rgb(255, 99, 132)',
                     backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    pointRadius: 0
                 }
                 ]
               }}

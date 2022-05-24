@@ -1,4 +1,4 @@
-import React ,{useContext, useState, useRef, useCallback} from "react";
+import React ,{useContext, useState, useRef, useCallback, useEffect} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,20 +10,40 @@ import qs from 'qs'
 import "./Market.css";
 
 const Tickercard = ({lastCoinRef, index, id,symbol, name, price, img, priceChange24hr, faveItem}) => {
+  const {faveCoins, getMyFaves } = useContext(MarketContext) 
+  const [isHovered, setIsHovered] = useState(false)
+  const [listOfFaveCoins, setListOfFaveCoins] = useState([])
+
+  useEffect( () => {
+    getMyFaves()
+  },[])
+
+  useEffect(() => {
+    setListOfFaveCoins(faveCoins.map(x => x.symbol))
+  },[faveCoins])
+
 
   let navigate = useNavigate();
   const handleTableClicks = () => {
     navigate(`/Market/${id.toLowerCase()}`)
   }
   return (    
-      <tr className="text-white text-base text-center mx-2 cursor-pointer">
+      <tr className="text-white text-base text-center mx-2 cursor-pointer hover:bg-gray-900">
           <td ref={lastCoinRef} onClick={handleTableClicks} className="flex flex-col py-5 justify-center items-center">
             <img className="object-scale-down h-20 w-40" src={img}/>
             {`${name} ${symbol.toUpperCase()}`}
           </td>        
           <td> ${price}</td>
           <td className={priceChange24hr > 0? "positive" : "negative"}> {`${priceChange24hr.toFixed(2)}%`}</td>   
-          <td className="heartContainer"><FontAwesomeIcon className="heartIcon" onClick={() => faveItem(symbol, index)} icon={faHeart}></FontAwesomeIcon></td>
+          <td className={isHovered ? "fa-bounce" : ""} >
+            <FontAwesomeIcon
+              onMouseEnter={() => setIsHovered(true)} 
+              onMouseLeave={() => setIsHovered(false)} 
+              className={listOfFaveCoins.includes(symbol) ? "heartIcon" : ""}
+              icon={faHeart} 
+              size="lg" 
+              onClick={() => faveItem(symbol, index)}
+          /></td>
       </tr>
   )
 }
@@ -102,7 +122,7 @@ const Market = () => {
   return (
     <div className={`marketContainer flex w-full justify-center items-center gradient-bg-services`}>
       <div>
-       <div className="flex justify-center space-x-24 pb-8 pt-8" >
+       <div className="pb-10 pt-10 flex space-x-24 justify-center" >
         <h2 className={`market1 text-white text-3xl sm:text-5xl py-2`}>
           Market
         </h2>
@@ -139,7 +159,7 @@ const Market = () => {
    
         </tbody>
         </table>
-        <div className="text-white text-3xl">{loading && 'Loading...'}</div>
+        <div className="items-center text-white text-5xl">{loading && 'Loading...'}</div>
     </div>
   </div>
   )

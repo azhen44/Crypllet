@@ -10,7 +10,7 @@
   min-height: 65vh;
 }
 
-table {
+/* table {
   width: 100%;
   border-collapse: collapse;
   overflow: hidden;
@@ -26,6 +26,10 @@ td {
 
 tr:first-child {
   background-color: gray;
+} */
+
+.isHoverX {
+  color:rgb(190, 44, 39)
 }
 
 .favourites {

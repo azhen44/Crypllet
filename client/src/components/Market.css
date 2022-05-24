@@ -3,11 +3,12 @@ body {
 }
 
 .heartIcon {
-  color: white;
+  color: red;
 }
 
 .heartIcon:hover {
   color: red;
+  transform: bounce;
 }
 
 .heartIcon:active {
@@ -16,10 +17,6 @@ body {
 
 .heartIconClicked {
   color:red;
-}
-
-td:not(.heartContainer):not(.deleteFave):hover {
-  background-color: rgba(255,255,255,0.3);
 }
 
 .marketContainer {

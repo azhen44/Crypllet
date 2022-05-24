@@ -2,7 +2,7 @@ import React ,{useContext, useEffect, useState} from "react";
 import axios from 'axios'
 import { MarketContext } from "../context/MarketContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faX } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from 'react-router-dom'
 import useGetCoin from "../customHooks/useGetCoin.jsx";
 import { TransactionContext } from "../context/TransactionContext";
@@ -10,7 +10,8 @@ import "./MyFave.css"
 import qs from 'qs'
 
 //Renders each coin
-const Tickercard = ({id, symbol, name, price, img, priceChange24hr, delFaveCoin}) => {  
+const Tickercard = ({id, symbol, name, price, img, priceChange24hr, delFaveCoin}) => {
+  const [isHovered, setIsHovered] = useState(false)  
   let navigate = useNavigate();
   const handleTableClicks = () => {
     navigate(`/Market/${name.toLowerCase()}`)
@@ -23,7 +24,14 @@ const Tickercard = ({id, symbol, name, price, img, priceChange24hr, delFaveCoin}
           </td>                 
           <td> ${price}</td>
           <td className={priceChange24hr > 0? "text-green-600" : "text-red-600"}> {`${priceChange24hr.toFixed(2)}%`}</td>   
-          <td><FontAwesomeIcon className="hover:fill-red-500" onClick={() => delFaveCoin(symbol)} icon={faHeart}></FontAwesomeIcon></td>
+          <td><FontAwesomeIcon
+            onMouseEnter={() => setIsHovered(true)} 
+            onMouseLeave={() => setIsHovered(false)} 
+            className={isHovered ? "isHoverX" : ""} 
+            onClick={() => delFaveCoin(symbol)} 
+            icon={faX} 
+            size="lg"
+            ></FontAwesomeIcon></td>
       </tr>
   )
 }
@@ -68,33 +76,33 @@ const MyFave = () => {
   
   return (
     <div className="favouriteContainer flex w-full justify-center items-center gradient-bg-services">
-    <div className="">
-      <div className="pb-40 pt-10 flex space-x-24 justify-center">
-        <h2 
-          className='market text-white text-3xl sm:text-5xl py-2'
-          onClick={changeMarketView}
-          >
-          <Link to={'/Market'} >Market</Link>
-        </h2>
-        <h2 className='favourites text-white text-3xl sm:text-5xl py-2 bg-neutral-600' onClick={()=>console.log(faveCoins)}>
-          My Favourites
-        </h2>
-      </div>
-      <div className="listContainer">
-        <table className="border-8">
-          <tbody>
-            <tr>
-              <th className="text-white py-2 px-3">Symbol</th>
-              <th className="text-white py-2 px-3">Price</th>
-              <th className="text-white py-2 px-3">24hr Change</th>
-              <th className="text-white px-20">Remove Favourite</th>
-            </tr>
-            {res}
-          </tbody>         
-        </table>
+      <div className="">
+        <div className="pb-40 pt-10 flex space-x-24 justify-center">
+          <h2 
+            className='market text-white text-3xl sm:text-5xl py-2'
+            onClick={changeMarketView}
+            >
+            <Link to={'/Market'} >Market</Link>
+          </h2>
+          <h2 className='favourites text-white text-3xl sm:text-5xl py-2 bg-neutral-600' onClick={()=>console.log(faveCoins)}>
+            My Favourites
+          </h2>
         </div>
+        <div className="listContainer  pb-16">
+          <table >
+            <tbody className="border-b-4">
+              <tr>
+                <th className="text-white py-2 px-3">Symbol</th>
+                <th className="text-white py-2 px-3">Price</th>
+                <th className="text-white py-2 px-3">24hr Change</th>
+                <th className="text-white px-20">Remove Favourite</th>
+              </tr>
+              {res}
+            </tbody>         
+          </table>
+          </div>
+      </div>
     </div>
-  </div>
     
   
   )
