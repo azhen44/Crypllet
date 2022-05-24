@@ -14,9 +14,9 @@ const Tickercard = ({lastCoinRef, index, id,symbol, name, price, img, priceChang
   const [isHovered, setIsHovered] = useState(false)
   const [listOfFaveCoins, setListOfFaveCoins] = useState([])
 
-  useEffect( () => {
-    getMyFaves()
-  },[])
+  // useEffect( () => {
+  //   getMyFaves()
+  // },[])
 
   useEffect(() => {
     setListOfFaveCoins(faveCoins.map(x => x.symbol))
