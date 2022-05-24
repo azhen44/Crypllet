@@ -20,10 +20,11 @@ module.exports = (db) => {
 
   router.get('/users', async (req, res) => {
     try {
-      const data =
-      res.json(data.rows)
-      res.status(200)
-      console.log(data.rows)
+      const data = await db.query(`SELECT * FROM users`)
+      if (data) {
+        res.json(data.rows)
+        console.log(data.rows)
+      }
     } catch (error) {
         res
           .status(500)
