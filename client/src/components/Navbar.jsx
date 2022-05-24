@@ -9,7 +9,8 @@ import { Link } from "react-router-dom";
 
 const NavBarItem = ({ title }) => (
   <li className={`mx-4 cursor-pointer my-2 text-lg`} >
-    <Link to={title}>{title}</Link>
+    {title === "Market" ?  <Link to={'/'}>{title}</Link> :  <Link to={title}>{title}</Link>}
+   
     </li>
 );
 const Navbar = () => {

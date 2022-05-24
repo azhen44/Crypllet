@@ -49,7 +49,7 @@ export const MarketProvider = ({children}) => {
     const getMyFaves = async () => {    
       
       try {
-        const res = await axios.get(`http://localhost:3001/${localStorage.getItem("userID")}/user_coins`)
+        const res = await axios.get(`http://localhost:3001/${userID}/user_coins`)
         if(res) {
           const newArr = res.data.map(coin => {
             return coin.coin_id
@@ -70,8 +70,12 @@ export const MarketProvider = ({children}) => {
     checkIfWalletIsConnnected();
     checkIfTransactionExist();
     getTickerData();
-    getMyFaves();
+ 
   },[])
+
+  useEffect( () => { 
+    getMyFaves();
+  },[userID])
 
 
 
