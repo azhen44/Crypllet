@@ -82,7 +82,7 @@ const MyFave = () => {
             className='market text-white text-3xl sm:text-5xl py-2'
             onClick={changeMarketView}
             >
-            <Link to={'/Market'} >Market</Link>
+            <Link to={'/'} >Market</Link>
           </h2>
           <h2 className='favourites text-white text-3xl sm:text-5xl py-2 bg-neutral-600' onClick={()=>console.log(faveCoins)}>
             My Favourites
