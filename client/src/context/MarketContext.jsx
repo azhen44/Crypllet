@@ -46,7 +46,8 @@ export const MarketProvider = ({children}) => {
   }
 
     //gets my favourited coins from database
-    const getMyFaves = async () => {      
+    const getMyFaves = async () => {    
+      
       try {
         const res = await axios.get(`http://localhost:3001/${localStorage.getItem("userID")}/user_coins`)
         if(res) {
@@ -58,6 +59,7 @@ export const MarketProvider = ({children}) => {
             res2.push(...searchForCoin(String(search)))
           })
           setFaveCoins(res2)
+    
         }
       } catch (error) {
         console.log(error)
@@ -69,7 +71,6 @@ export const MarketProvider = ({children}) => {
     checkIfTransactionExist();
     getTickerData();
     getMyFaves();
-    //setUserID(parseInt(localStorage.getItem("userID"))) 
   },[])
 
 

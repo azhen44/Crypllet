@@ -1,0 +1,83 @@
+/* .deleteFav {
+  color: rgb(255, 255, 255);
+}
+
+.deleteFav:hover {
+  color: red;
+} */
+
+.favouriteContainer {
+  min-height: 65vh;
+}
+
+/* table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  background-color: rgba(255,255,255,0.2);
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+th,
+td {
+  padding: 40px;
+  color: #fff;
+}
+
+tr:first-child {
+  background-color: gray;
+} */
+
+.isHoverX {
+  color:rgb(190, 44, 39)
+}
+
+.favourites {
+  border-radius: 25px;
+  padding: 30px;
+  background-color: rgb(66, 67, 69); 
+  color: #0087ca;
+}
+
+.market {
+  padding: 30px;
+  display: inline-block;
+  position: relative;
+}
+
+.market:hover {
+  border-radius: 25px;
+  color: #0087ca;
+  opacity: 50%;
+}
+
+.market:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 5px;
+  bottom: 0;
+  left: 0;
+  background-color: #0087ca;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.market:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.negative {
+  color: red;
+}
+
+
+.positive {
+  color: rgb(1, 199, 1);
+}
+
+.xButton:hover {
+  color: red;
+}

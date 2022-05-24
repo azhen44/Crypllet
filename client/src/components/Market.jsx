@@ -1,4 +1,4 @@
-import React ,{useContext, useState, useRef, useCallback} from "react";
+import React ,{useContext, useState, useRef, useCallback, useEffect} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,22 +7,43 @@ import axios from "axios";
 import { TransactionContext } from "../context/TransactionContext";
 import useGetCoin from "../customHooks/useGetCoin.jsx";
 import qs from 'qs'
+import "./Market.css";
 
 const Tickercard = ({lastCoinRef, index, id,symbol, name, price, img, priceChange24hr, faveItem}) => {
+  const {faveCoins, getMyFaves } = useContext(MarketContext) 
+  const [isHovered, setIsHovered] = useState(false)
+  const [listOfFaveCoins, setListOfFaveCoins] = useState([])
+
+  useEffect( () => {
+    getMyFaves()
+  },[])
+
+  useEffect(() => {
+    setListOfFaveCoins(faveCoins.map(x => x.symbol))
+  },[faveCoins])
+
 
   let navigate = useNavigate();
   const handleTableClicks = () => {
     navigate(`/Market/${id.toLowerCase()}`)
   }
   return (    
-      <tr className="text-white text-base text-center mx-2 cursor-pointer">
+      <tr className="text-white text-base text-center mx-2 cursor-pointer hover:bg-gray-900">
           <td ref={lastCoinRef} onClick={handleTableClicks} className="flex flex-col py-5 justify-center items-center">
             <img className="object-scale-down h-20 w-40" src={img}/>
             {`${name} ${symbol.toUpperCase()}`}
           </td>        
           <td> ${price}</td>
-          <td className={priceChange24hr > 0? "text-green-600" : "text-red-600"}> {`${priceChange24hr.toFixed(2)}%`}</td>   
-          <td><FontAwesomeIcon className="hover:fill-red-500" onClick={() => faveItem(symbol, index)} icon={faHeart}></FontAwesomeIcon></td>
+          <td className={priceChange24hr > 0? "positive" : "negative"}> {`${priceChange24hr.toFixed(2)}%`}</td>   
+          <td className={isHovered ? "fa-bounce" : ""} >
+            <FontAwesomeIcon
+              onMouseEnter={() => setIsHovered(true)} 
+              onMouseLeave={() => setIsHovered(false)} 
+              className={listOfFaveCoins.includes(symbol) ? "heartIcon" : ""}
+              icon={faHeart} 
+              size="lg" 
+              onClick={() => faveItem(symbol, index)}
+          /></td>
       </tr>
   )
 }
@@ -70,7 +91,7 @@ const Market = () => {
           console.log(error);
         });
       }
-    } else alert("Please log in to fave")
+    } else alert("Please log in to create your watchlist")
 
   }
  
@@ -99,33 +120,36 @@ const Market = () => {
     })
  
   return (
-    <div className="flex w-full justify-center items-center gradient-bg-services">
-      <div className="flex flex-col items-center justify-between md:p-20 py-12 px-4">
-       <div className="flex-1 flex flex-col justify-start items-start">
-        <h1 className={`text-white text-3xl sm:text-5xl py-2 bg-neutral-600`}>
+    <div className={`marketContainer flex w-full justify-center items-center gradient-bg-services`}>
+      <div>
+       <div className="pb-10 pt-10 flex space-x-24 justify-center" >
+        <h2 className={`market1 text-white text-3xl sm:text-5xl py-2`}>
           Market
-        </h1>
-        <h1
-          className={`text-white text-3xl sm:text-5xl py-2`}
+        </h2>
+        <h2
+          className={`favourites1 text-white text-3xl sm:text-5xl py-2`}
           onClick={changeMarketView}
         >
           <Link to={`/${userID}/favourites`} >My Favourite</Link>
-        </h1>
+        </h2>
       </div>
+      <div className="searchBarContainer">
         <input 
+          className="searchBar"
           onClick={handleSearch}
           name="search"
           value={search}
           placeholder={"Enter Coin Name"}
           onChange={(event)=>setSearch(event.target.value)}
         />
-        <table>
+        </div>
+        <table className="rounded-lg my-10">
           <tbody>
             <tr>
-              <th className="text-white px-20 py-2 text-gradient ">Coin</th>
-              <th className="text-white px-20 py-2 text-gradient ">Price ($USD) </th>
-              <th className="text-white px-20 py-2 text-gradient ">24hr Percent Change</th>
-              <th className="text-white px-20 py-2 text-gradient">Favourite?</th>
+              <th className="text-white px-20 py-2 ">Coin</th>
+              <th className="text-white px-20 py-2 ">Price ($USD) </th>
+              <th className="text-white px-20 py-2 ">24hr Percent Change</th>
+              <th className="text-white px-20 py-2 ">Add to Watchlist</th>
             </tr>
             {search? 
               searchCoin :
@@ -135,7 +159,7 @@ const Market = () => {
    
         </tbody>
         </table>
-        <div className="text-white text-3xl">{loading && 'Loading...'}</div>
+        <div className="items-center text-white text-5xl">{loading && 'Loading...'}</div>
     </div>
   </div>
   )
