@@ -17,7 +17,7 @@ const InfoCard = ({props}) => {
     //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
   });
   return (    
-    <tr className="text-white text-base text-center mx-2 cursor-pointer">
+    <tr className="text-white text-base text-center mx-2 cursor-pointer ">
         <td className="flex flex-col py-5 justify-center items-center">
           <img className="object-scale-down h-20 w-40" src={props.image.large}/>
           {props.name}
@@ -93,22 +93,22 @@ const CoinPage = () => {
   },[days])
 
   return (    
-    <div className="flex w-full flex-col justify-center items-center gradient-bg-services ">      
-        <div className={"flex flex-col jusitify-center items-start"}>
-          <table className='text-white'>
+    <div className="flex flex-col justify-center items-center gradient-bg-services ">      
+        <div className={""}>
+          <table className='text-white flex justify-center py-6 text-xs md:text-base'>
             <tbody>
               <tr>
-                <th className="text-white px-20 py-2 text-gradient ">Coin</th>
-                <th className="text-white px-20 py-2 text-gradient ">Price</th>
-                <th className="text-white px-20 py-2 text-gradient ">24hr Price Change (USD)</th>
-                <th className="text-white px-20 py-2 text-gradient ">Market Cap</th>
-                <th className="text-white px-20 py-2 text-gradient ">Circulating Supply </th>
+                <th className="text-white px-2 md:px-10 sm:px-6 py-2 ">Coin</th>
+                <th className="text-white px-2 md:px-10 sm:px-6 py-2 ">Price</th>
+                <th className="text-white px-2 md:px-10 sm:px-6 py-2 ">24hr Change</th>
+                <th className="text-white px-2 md:px-10 sm:px-6 py-2 ">Market Cap</th>
+                <th className="text-white px-2 md:px-10 sm:px-6 py-2 ">Circulating Supply </th>
               </tr>            
                 {!isGetDataLoading && <InfoCard  props={coin}/>}
             </tbody>
           </table>  
           {!isGetDataLoading &&
-            <div className="flex w-full justify-center text-white text-base text-center mx-2 cursor-pointer pt-2 pb-6 border-b-2">
+            <div className="flex flex-wrap justify-center text-white text-base text-center mx-2 pt-2 pb-6 border-b-2">
               {parse(coin.description.en.split(". ")[0])}.
             </div>
           }   

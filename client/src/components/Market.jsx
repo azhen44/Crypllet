@@ -122,8 +122,8 @@ const Market = () => {
   return (
     <div className={`marketContainer flex w-full justify-center items-center gradient-bg-services`}>
       <div>
-       <div className="pb-10 pt-10 flex space-x-24 justify-center" >
-        <h2 className={`market1 text-white text-3xl sm:text-5xl py-2`}>
+       <div className="flex flex-col md:flex-row pb-10 pt-10 flex items-center justify-center" >
+        <h2 className={`favourites text-white text-3xl sm:text-5xl py-2 bg-neutral-600`}>
           Market
         </h2>
         <h2
@@ -146,10 +146,10 @@ const Market = () => {
         <table className="rounded-lg my-10">
           <tbody>
             <tr>
-              <th className="text-white px-20 py-2 ">Coin</th>
-              <th className="text-white px-20 py-2 ">Price ($USD) </th>
-              <th className="text-white px-20 py-2 ">24hr Percent Change</th>
-              <th className="text-white px-20 py-2 ">Add to Watchlist</th>
+              <th className="text-white text-sm md:px-20 py-2 ">Coin</th>
+              <th className="text-white text-sm md:px-20 py-2 ">Price ($USD) </th>
+              <th className="text-white text-sm md:px-20 py-2 ">24hr Percent Change</th>
+              <th className="text-white text-sm md:px-20 py-2 ">Add to Watchlist</th>
             </tr>
             {search? 
               searchCoin :
