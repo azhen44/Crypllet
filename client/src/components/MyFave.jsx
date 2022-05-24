@@ -77,7 +77,7 @@ const MyFave = () => {
   return (
     <div className="favouriteContainer flex w-full justify-center items-center gradient-bg-services">
       <div className="">
-        <div className="pb-40 pt-10 flex space-x-24 justify-center">
+        <div className="flex flex-col md:flex-row pb-10 pt-10 flex items-center justify-center">
           <h2 
             className='market text-white text-3xl sm:text-5xl py-2'
             onClick={changeMarketView}
@@ -92,10 +92,10 @@ const MyFave = () => {
           <table >
             <tbody className="border-b-4">
               <tr>
-                <th className="text-white py-2 px-3">Symbol</th>
-                <th className="text-white py-2 px-3">Price</th>
-                <th className="text-white py-2 px-3">24hr Change</th>
-                <th className="text-white px-20">Remove Favourite</th>
+                <th className="text-white text-sm md:px-20 py-2 px-3">Symbol</th>
+                <th className="text-white text-sm md:px-20 py-2 px-3">Price</th>
+                <th className="text-white text-sm md:px-20 py-2 px-3">24hr Change</th>
+                <th className="text-white text-sm md:px-20 py-2 px-3">Remove Favourite</th>
               </tr>
               {res}
             </tbody>         
