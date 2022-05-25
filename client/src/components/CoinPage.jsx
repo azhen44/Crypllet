@@ -5,6 +5,7 @@ import { Chart, Line } from 'react-chartjs-2';
 import { Chart as ChartJS, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale } from 'chart.js';
 import parse from 'html-react-parser';
 import LoadSpinner from './LoadSpinner';
+import "./CoinPage.css"
 
 const InfoCard = ({props}) => {
   const summary = props.description.en.split(',',[1])[0]
@@ -95,9 +96,9 @@ const CoinPage = () => {
   return (    
     <div className="flex flex-col justify-center items-center gradient-bg-services ">      
         <div className={""}>
-          <table className='text-white flex justify-center py-6 text-xs md:text-base'>
-            <tbody>
-              <tr>
+          <table className='coinContainer text-white flex justify-center py-6 text-xs md:text-base'>
+            <tbody className="coinPageContainer">
+              <tr className='coinPageContainer'>
                 <th className="text-white px-2 md:px-10 sm:px-6 py-2 ">Coin</th>
                 <th className="text-white px-2 md:px-10 sm:px-6 py-2 ">Price</th>
                 <th className="text-white px-2 md:px-10 sm:px-6 py-2 ">24hr Change</th>
@@ -108,19 +109,19 @@ const CoinPage = () => {
             </tbody>
           </table>  
           {!isGetDataLoading &&
-            <div className="flex flex-wrap justify-center text-white text-base text-center mx-2 pt-2 pb-6 border-b-2">
+            <div className="coinDesc flex flex-wrap justify-center text-white text-base text-center mx-2 pt-2 pb-6 border-b-2">
               {parse(coin.description.en.split(". ")[0])}.
             </div>
           }   
         </div>
 
-        <div className='flex flex-row content-center bg-gray-900 rounded  text-white py-2' >
-          <h2 onClick={() => setDays(1)} className={days === 1? "px-4 rounded bg-gray-600" : "rounded px-4"}>1D</h2>
-          <h2 onClick={() => setDays(7)} className={days === 7? "px-4 rounded bg-gray-600" : "rounded px-4"}>7D</h2>
-          <h2 onClick={() => setDays(30)} className={days === 30? "px-4 rounded bg-gray-600" : "rounded px-4"}>1M</h2>
-          <h2 onClick={() => setDays(90)} className={days === 90? "px-4 rounded bg-gray-600" : "rounded px-4"}>3M</h2>
-          <h2 onClick={() => setDays(365)} className={days === 365? "px-4 rounded bg-gray-600" : "rounded px-4"}>1Y</h2>
-          <h2 onClick={() => setDays('max')} className={days === 'max'? "px-4 rounded bg-gray-600" : "rounded px-4"}>ALL</h2>
+        <div className='my-5 flex flex-row content-center bg-gray-900 rounded  text-white py-2' >
+          <h2 onClick={() => setDays(1)} className={days === 1? "setDay1 px-4 rounded bg-gray-600" : "setDay1 rounded px-4"}>1D</h2>
+          <h2 onClick={() => setDays(7)} className={days === 7? "setDay1 px-4 rounded bg-gray-600" : "setDay1 rounded px-4"}>7D</h2>
+          <h2 onClick={() => setDays(30)} className={days === 30? "setDay1 px-4 rounded bg-gray-600" : "setDay1 rounded px-4"}>1M</h2>
+          <h2 onClick={() => setDays(90)} className={days === 90? "setDay1 px-4 rounded bg-gray-600" : "setDay1 rounded px-4"}>3M</h2>
+          <h2 onClick={() => setDays(365)} className={days === 365? "setDay1 px-4 rounded bg-gray-600" : "setDay1 rounded px-4"}>1Y</h2>
+          <h2 onClick={() => setDays('max')} className={days === 'max'? "px-4 rounded bg-gray-600" : "setDay1 rounded px-4"}>ALL</h2>
         </div> 
        
         {isLoading? <LoadSpinner />

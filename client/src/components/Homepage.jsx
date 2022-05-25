@@ -40,7 +40,7 @@ const Homepage = () => {
     <div className="flex w-full justify-center items-center">
        <div className="justify-items-center md:p-20 py-12 px-4">
          <div className="justify-items-center pb-20">
-          <h1 className="pt-20 text-3xl sm:text-6xl text-white text-center ">
+          <h1 className="mainheading pt-20 text-3xl sm:text-6xl text-white text-center ">
             Send & Receive <br /> Crypto with Ease
           </h1>
           <p className="mt-5 text-white font-light text-base text-center">
