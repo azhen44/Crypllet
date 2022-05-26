@@ -14,25 +14,25 @@ Users can click on the cryptocurrencies to view more information including histo
 Users can send rETH on the ropsten testnet of the ETH blockchain to a wallet address
 Users can view their transaction history to and from their wallet address.
 
-![Main Page]()
+![Main Page](https://github.com/azhen44/Crypllet/blob/master/documents/mainpage.png?raw=true)
 The overview of the Crypllet. Views all Coins
 
-![Search]()
+![Search](https://github.com/azhen44/Crypllet/blob/master/documents/search.png?raw=true)
 Search feature to finding specific coins.
 
-![Favourites]()
+![Favourites](https://github.com/azhen44/Crypllet/blob/master/documents/favepage.png?raw=true)
 My favourites page containing list of all coins that has been favourited
 
-![history1day]()
+![history1day](https://github.com/azhen44/Crypllet/blob/master/documents/history1day.png?raw=true)
 A history graphical graph of the price for 1 day
 
-![history1day]()
+![historyalltime](https://github.com/azhen44/Crypllet/blob/master/documents/historyalltime.png?raw=true)
 A history graphical graph of the price for all time
 
-![Send]()
+![Send](https://github.com/azhen44/Crypllet/blob/master/documents/search.png?raw=true)
 Web3 app page where users can send rETH over the ETH blockchain
 
-![transaction]()
+![transaction](https://github.com/azhen44/Crypllet/blob/master/documents/transactionhistory.png?raw=true)
 A history of the last 9 transaction history to and from the signed in account.
 
 ## Tech Stack
