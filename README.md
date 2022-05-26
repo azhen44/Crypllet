@@ -6,13 +6,13 @@ Data is persisted by the API server using a PostgreSQL database.
 The client application communicates with an API server over HTTP, using the JSON format.
 
 ## Project Features
-Users can log into their Metamask wallet via Metamask's API to save favourite cryptocurrencies or send rETH through the blockchain.
-Users can check the price on a variety of cryptocurrencies.
-Users can add faveourite cryptocurrencies to their watchlist and save it for future references.
-User can search for their desired cryptocurrency.
-Users can click on the cryptocurrencies to view more information including historical graphs.
-Users can send rETH on the ropsten testnet of the ETH blockchain to a wallet address
-Users can view their transaction history to and from their wallet address.
+* Users can log into their Metamask wallet via Metamask's API to save favourite cryptocurrencies or send rETH through the blockchain.
+* Users can check the price on a variety of cryptocurrencies.
+* Users can add faveourite cryptocurrencies to their watchlist and save it for future references.
+* User can search for their desired cryptocurrency.
+* Users can click on the cryptocurrencies to view more information including historical graphs.
+* Users can send rETH on the ropsten testnet of the ETH blockchain to a wallet address
+* Users can view their transaction history to and from their wallet address.
 
 ![Main Page](https://github.com/azhen44/Crypllet/blob/master/documents/mainpage.png?raw=true)
 The overview of the Crypllet. Views all Coins
