@@ -1,4 +1,4 @@
-# Interview Scheduler
+# Crypllet
 
 ## Project Description
 Development focuses on a single page application (SPA) called Crypllet, built using React.
