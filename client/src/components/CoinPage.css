@@ -1,0 +1,22 @@
+.coinContainer {
+  padding: 90px;
+  padding-top: 30px;
+}
+
+.coinDesc {
+  padding: 80px;
+}
+
+.coinPageContainer {
+  border-bottom: 1px solid white;
+  border-top: 1px solid white;
+}
+
+
+canvas {
+  padding: 40px;
+}
+
+.setDay1:hover {
+  background: gray;
+}
